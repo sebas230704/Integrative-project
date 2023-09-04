@@ -1,7 +1,8 @@
 # Nombre del Proyecto
 
-Descripción breve del proyecto.
+Bienvenido a Eventix, una plataforma versátil y completa diseñada para simplificar la planificación, gestión y ejecución de eventos de todo tipo. Nuestra aplicación proporciona a organizadores de eventos, y asistentes las herramientas necesarias para crear y disfrutar de experiencias memorables. Desde la creación de eventos personalizados hasta la gestión de invitados y la colaboración con organizadores.
 
+¡Comienza a utilizar [Nombre del Proyecto] hoy mismo y descubre cómo podemos transformar tus eventos en momentos inolvidables!
 ## Requisitos Previos
 
 - Python >3.8: [Descargar Python](https://www.python.org/downloads/)
@@ -32,11 +33,18 @@ en la direccion del proyecto (dentro del proyecto) y ejecuta los siguientes coma
 
 Una vez tengas el entorno virtual installado y django ejecuta:
 
-- python manage.py runserver (ingresar al enlace para emepzar el servidor: Example: http://127.0.0.1:8000)
+- python manage.py runserver (ingresar al enlace para emepzar el servidor: ejemplo: http://127.0.0.1:8000)
 
-- 
  
+## Licencia
 
+Este proyecto está bajo la Licencia [Nombre de la Licencia]. Consulta el archivo [LICENSE](LICENSE) para obtener más detalles.
+
+## Contacto
+
+- Nombre del Autor: 
+- Correo Electrónico:
+- Enlace a tu sitio web o perfil en GitHub: 
 
 
 
