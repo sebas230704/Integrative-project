@@ -30,13 +30,13 @@ en la direccion de la carpeta del proyecto "\curseProyect" (donde esta este arch
    cuando actives el entorno virtual fijate que te quede algo asi: "(venv) PS C:\RUTA\RUTA\RUTA\ETC"
 
 - pip install django
+- pip install mysqlclient      (instalamos mysqlclient para trabajar con mysql antes de correr el servidor)
 - python manage.py runserver   (ahora, si deseas, puedes ejecutar el proyecto para verificar que todo este correcto)
 
 
-## 3. Instalar dependencias para trebajar con mysql
+## 3. Actualizar cambios en el gestor de BD mysql
 
 en la misma carpeta "\curseProyect"  ejecuta
- - pip install mysqlclient 
 
  Al momento de realizar algun cambio ejecuta siempre para actualizar la base de datos:
 
