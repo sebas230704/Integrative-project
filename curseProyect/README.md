@@ -28,7 +28,7 @@ en la direccion de la carpeta del proyecto "\curseProyect" (donde esta este arch
 - virtualenv venv
 - .\venv\Scripts\activate   (activamos el entorno virtual siempre que vayamos a trabajar en el proyecto y realizar cualquier cambio e instalaciones)
    cuando actives el entorno virtual fijate que te quede algo asi: "(venv) PS C:\RUTA\RUTA\RUTA\ETC"
-
+    
 - pip install django
 - pip install mysqlclient      (instalamos mysqlclient para trabajar con mysql antes de correr el servidor)
 - python manage.py runserver   (ahora, si deseas, puedes ejecutar el proyecto para verificar que todo este correcto)
