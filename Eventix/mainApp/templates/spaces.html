@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Verdadero home</h1>
+
+<ul>
+    {% for space in spaces %}
+    <li>
+       <h1>{{space.title}}</h1>
+       <p>{{space.description}}</p>
+       <p>{{space.user.username}}</p>
+    </li>
+    {% endfor%}
+</ul>
+
+{% endblock %}
