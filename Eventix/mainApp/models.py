@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 
 class Space(models.Model):
     title = models.CharField(max_length=100)
-    capacity = models.IntegerField();
+    capacity = models.IntegerField()
     address = models.CharField(max_length=255)
     location = models.CharField(max_length=255)
     description = models.TextField(blank = True)
@@ -15,4 +15,137 @@ class Space(models.Model):
     
     def __str__(self): #es para que en admin aparezca el nombre del objeto y no "obecjt(x)"
         return self.title
+
+
+class Users(models.Model):
+    idUser = models.AutoField(primary_key=True)
+    names = models.CharField(max_length=101, null=True)
+    surnames = models.CharField(max_length=101, null=True)
+    email = models.CharField(max_length=101)
+
+    class Meta:
+        db_table = 'users'
+
+
+class Organizers(models.Model):
+    idOrganizers = models.AutoField(primary_key=True)
+    companyName = models.CharField(max_length=45, null=True)
+    idUser = models.ForeignKey(Users, on_delete=models.CASCADE)
+    
+    class Meta:
+        db_table = 'organizers'
+
+
+class Event(models.Model):
+    idEvent = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=45)
+    descripcion = models.CharField(max_length=202, null=True)
+    date = models.DateTimeField()
+    city = models.CharField(max_length=45)
+    place = models.CharField(max_length=45)
+    idUser = models.ForeignKey(Users, on_delete=models.CASCADE)
+    
+    class Meta:
+        db_table = 'event'
+    
+
+
+
+class Specialties(models.Model):
+    idSpecialty = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=77, null=True)
+
+    class Meta:
+        db_table = 'specialties'
+
+
+class EspecialidadesDeOrganizador(models.Model):
+    idOrganizer = models.ForeignKey(Organizers, on_delete=models.CASCADE)
+    idSpecialty = models.ForeignKey(Specialties, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'especialidadesDeOrganizador'
+
+
+
+class Contractors(models.Model):
+    idContractor = models.AutoField(primary_key=True)
+    idUser = models.ForeignKey(Users, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'contractors'
+
+
+class OrganizerRatings(models.Model):
+    idOrganizerRatings = models.AutoField(primary_key=True)
+    rating = models.IntegerField(null=True)
+    comment = models.CharField(max_length=202, null=True)
+    date = models.DateTimeField(null=True)
+    idOrganizer = models.ForeignKey(Organizers, on_delete=models.CASCADE)
+    idContractor = models.ForeignKey(Contractors, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'organizerRatings'
+
+
+
+class PreEventos(models.Model):
+    idContractor = models.ForeignKey(Contractors, on_delete=models.CASCADE)
+    idOrganizer = models.ForeignKey(Organizers, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'preEventos'
+
+
+
+class EventFigures(models.Model):
+    idEventFigure = models.AutoField(primary_key=True)
+    nikname = models.CharField(max_length=45)
+    caracteristica = models.CharField(max_length=45, null=True)
+    idEvent = models.ForeignKey(Event, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'eventFigures'
+
+
+
+
+class FavoriteOrganizers(models.Model):
+    idFavoriteOrganizer = models.AutoField(primary_key=True)
+    idUser = models.ForeignKey(Users, on_delete=models.CASCADE)
+    idOrganizer = models.ForeignKey(Organizers, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'favoriteOrganizers'
+
+
+
+class EventCategories(models.Model):
+    idEventCategorie = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=45, null=True)
+
+    class Meta:
+        db_table = 'eventCategories'
+
+
+class Event_eventCategories(models.Model):
+    idEvent = models.ForeignKey(Event, on_delete=models.CASCADE)
+    idEventCategorie = models.ForeignKey(EventCategories, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'event_eventCategories'
+
+
+
+class EventImages(models.Model):
+    idEvenImage = models.AutoField(primary_key=True)
+    urlImage = models.CharField(max_length=404)
+    name = models.CharField(max_length=101)
+    idEven = models.ForeignKey(Event, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'eventImages'
+
+
+
     
