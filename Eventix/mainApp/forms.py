@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Space
+from .models import EventCategories, Space
 
 
 class supplySpaceForm(ModelForm):
@@ -14,4 +14,9 @@ class CreateNewEvent(forms.Form):
     date = forms.DateField(label="date", required=True)
     city = forms.CharField(label="city", max_length=45, required=True)
     place = forms.CharField(label="place", max_length=45, required=True)
+    categories = forms.ModelMultipleChoiceField(
+        queryset=EventCategories.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=False
+    )
 

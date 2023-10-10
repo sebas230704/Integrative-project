@@ -11,7 +11,10 @@ from datetime import datetime
 
 
 def home(request):
-    return render(request, 'home.html')
+    eventCategories = EventCategories.objects.all
+    return render(request, 'home.html', {
+        'eventCategories': eventCategories
+    })
 
 
 def signup(request):
@@ -37,6 +40,7 @@ def signup(request):
             'form': UserCreationForm,
             "error": 'Password do not match'
         })
+    
 
 
 def createEvent(request):
@@ -45,33 +49,36 @@ def createEvent(request):
         if form.is_valid():
             # Varificamos is la instancia email en 'users' conincide con la instancia 'username' en auth_user
             # request.user nos retorna el username la cual es una email
-            try:
-                user = Users.objects.get(email=request.user)
-            except Users.DoesNotExist:
-                user = None
+       
 
-            if user:
-                # Obtener datos del formulario
-                name = form.cleaned_data['name']
-                description = form.cleaned_data['description']
-                date = form.cleaned_data['date']
-                city = form.cleaned_data['city']
-                place = form.cleaned_data['place']
+            # Obtener datos del formulario
+            name = form.cleaned_data['name']
+            description = form.cleaned_data['description']
+            date = form.cleaned_data['date']
+            city = form.cleaned_data['city']
+            place = form.cleaned_data['place']
+            category_ids = form.cleaned_data['categories']
 
                
-                event = Event(
-                    name=name,
-                    descripcion=description,
-                    date=date,
-                    city=city,
-                    place=place,
-                    idUser=user 
+            event = Event(
+                name=name,
+                descripcion=description,
+                date=date,
+                city=city,
+                place=place,
+                idUser=request.user
+            )
+
+            event.save()
+
+            for category in category_ids:
+                event_eventCategories = Event_eventCategories(
+                    idEvent = event,
+                    idEventCategorie = category
                 )
-
-                # Guardar objeto en base de datos
-                event.save()
-
-                return redirect('/') 
+                event_eventCategories.save()
+            print("CATEGORIES_: ", category_ids)
+            return redirect('/') 
 
     else:
         form = CreateNewEvent()
@@ -122,7 +129,15 @@ def supplySpace(request):
 def spaces(request):
     spaces = Space.objects.all()
     return render(request, 'spaces.html', {'spaces' : spaces})
-        
+
+
+def event(request, categoria_id):
+    categoria = EventCategories.objects.get(pk=categoria_id)
+    # Consulta los eventos relacionados con la categoría
+    events = Event.objects.filter(event_eventcategories__idEventCategorie=categoria)
+    print("EVENTOS: ", events)
+    
+    return render(request, 'events.html', {'events': events})        
 
 
 

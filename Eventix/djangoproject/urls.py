@@ -20,10 +20,11 @@ from mainApp import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.spaces, name='home'),
+    path('', views.home, name='home'),
     path('signup/', views.signup, name='signup'),
-    path('createEvent/', views.createEvent, name='createEvent'),
+    path('createEvent/', views.createEvent, name='CreateEvent'),
     path('logout/', views.signout, name='logout'),
     path('signin/', views.signin, name='signin'),
     path('supply/space/', views.supplySpace, name='supplySpace'),
+    path('event/<int:categoria_id>', views.event, name='eventByCategory'),
 ]

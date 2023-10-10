@@ -1,7 +1,24 @@
-{%extends 'base.html'%}
 
 
-{% block content %}
-<h1>Pagina en construccion</h1>
-<p>{% lorem 3 b random %}</p>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {%extends 'base.html'%}
+    {% block content %}
+        <h1>Busca por categorias</h1>
+        {% for eventCategory in eventCategories %}
+            <div>
+                <h4>{{ eventCategory.name }}</h4>
+                <p>{{ eventCategory.idEventCategorie }}</p>
+                <a href="{% url 'eventByCategory' eventCategory.idEventCategorie %}">Ver Categoría</a>
+
+            </div>
+        {% endfor %}
+    {% endblock %}
+</body>
+</html>

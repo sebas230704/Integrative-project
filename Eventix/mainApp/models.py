@@ -17,20 +17,11 @@ class Space(models.Model):
         return self.title
 
 
-class Users(models.Model):
-    idUser = models.AutoField(primary_key=True)
-    names = models.CharField(max_length=101, null=True)
-    surnames = models.CharField(max_length=101, null=True)
-    email = models.CharField(max_length=101)
-
-    class Meta:
-        db_table = 'users'
-
 
 class Organizers(models.Model):
     idOrganizers = models.AutoField(primary_key=True)
     companyName = models.CharField(max_length=45, null=True)
-    idUser = models.ForeignKey(Users, on_delete=models.CASCADE)
+    idUser = models.ForeignKey(User, on_delete=models.CASCADE)
     
     class Meta:
         db_table = 'organizers'
@@ -43,7 +34,7 @@ class Event(models.Model):
     date = models.DateTimeField()
     city = models.CharField(max_length=45)
     place = models.CharField(max_length=45)
-    idUser = models.ForeignKey(Users, on_delete=models.CASCADE)
+    idUser = models.ForeignKey(User, on_delete=models.CASCADE)
     
     class Meta:
         db_table = 'event'
@@ -70,7 +61,7 @@ class EspecialidadesDeOrganizador(models.Model):
 
 class Contractors(models.Model):
     idContractor = models.AutoField(primary_key=True)
-    idUser = models.ForeignKey(Users, on_delete=models.CASCADE)
+    idUser = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'contractors'
@@ -112,7 +103,7 @@ class EventFigures(models.Model):
 
 class FavoriteOrganizers(models.Model):
     idFavoriteOrganizer = models.AutoField(primary_key=True)
-    idUser = models.ForeignKey(Users, on_delete=models.CASCADE)
+    idUser = models.ForeignKey(User, on_delete=models.CASCADE)
     idOrganizer = models.ForeignKey(Organizers, on_delete=models.CASCADE)
 
     class Meta:
@@ -123,6 +114,9 @@ class FavoriteOrganizers(models.Model):
 class EventCategories(models.Model):
     idEventCategorie = models.AutoField(primary_key=True)
     name = models.CharField(max_length=45, null=True)
+
+    def __str__(self):
+        return self.name
 
     class Meta:
         db_table = 'eventCategories'
