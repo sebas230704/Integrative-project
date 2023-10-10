@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
-from django.http import HttpResponse
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
-from .forms import supplySpaceForm
-from .models import Space
+from .forms import CreateNewEvent, supplySpaceForm
+from .models import *
+from datetime import datetime
 
 # Create your views here.
 
@@ -37,9 +37,47 @@ def signup(request):
             'form': UserCreationForm,
             "error": 'Password do not match'
         })
-        
+
+
 def createEvent(request):
-    return render(request, 'createEvent.html')
+    if request.method == 'POST':
+        form = CreateNewEvent(request.POST)
+        if form.is_valid():
+            # Varificamos is la instancia email en 'users' conincide con la instancia 'username' en auth_user
+            # request.user nos retorna el username la cual es una email
+            try:
+                user = Users.objects.get(email=request.user)
+            except Users.DoesNotExist:
+                user = None
+
+            if user:
+                # Obtener datos del formulario
+                name = form.cleaned_data['name']
+                description = form.cleaned_data['description']
+                date = form.cleaned_data['date']
+                city = form.cleaned_data['city']
+                place = form.cleaned_data['place']
+
+               
+                event = Event(
+                    name=name,
+                    descripcion=description,
+                    date=date,
+                    city=city,
+                    place=place,
+                    idUser=user 
+                )
+
+                # Guardar objeto en base de datos
+                event.save()
+
+                return redirect('/') 
+
+    else:
+        form = CreateNewEvent()
+
+    return render(request, 'createEvent.html', {'form': form})
+
 
 def signout(request):
     logout(request)
@@ -86,4 +124,13 @@ def spaces(request):
     return render(request, 'spaces.html', {'spaces' : spaces})
         
 
+
+
+def defDateTime(date):
+    if date:
+        dateTime = datetime.strptime(date, '%Y-%m-%d').date()
+    else:
+        dateTime = None  
+    
+    return dateTime
 

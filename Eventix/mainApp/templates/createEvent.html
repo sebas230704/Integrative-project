@@ -1,8 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Pagina en construccion</h1>
-
+<h1>Crear un evento</h1>
+<form method="POST" action="">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button>
+        Save
+    </button>
+</form>
 
 {% endblock %}
-
