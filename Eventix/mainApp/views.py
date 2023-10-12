@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
+from django.shortcuts import render, get_object_or_404
 from django.db import IntegrityError
-from .forms import CreateNewEvent, supplySpaceForm
+from .forms import *
 from .models import *
 from datetime import datetime
 
@@ -12,13 +13,14 @@ from datetime import datetime
 
 def home(request):
     eventCategories = EventCategories.objects.all
+    events = Event.objects.all()
     return render(request, 'home.html', {
-        'eventCategories': eventCategories
+        'eventCategories': eventCategories, 
+        'events': events
     })
 
 
 def signup(request):
-
     if request.method == 'GET':
         return render(request, 'signup.html', {
             'form': UserCreationForm
@@ -77,7 +79,6 @@ def createEvent(request):
                     idEventCategorie = category
                 )
                 event_eventCategories.save()
-            print("CATEGORIES_: ", category_ids)
             return redirect('/') 
 
     else:
@@ -131,13 +132,49 @@ def spaces(request):
     return render(request, 'spaces.html', {'spaces' : spaces})
 
 
-def event(request, categoria_id):
+def events(request, categoria_id):
     categoria = EventCategories.objects.get(pk=categoria_id)
     # Consulta los eventos relacionados con la categoría
     events = Event.objects.filter(event_eventcategories__idEventCategorie=categoria)
-    print("EVENTOS: ", events)
     
     return render(request, 'events.html', {'events': events})        
+
+
+def eventDetail(request, idEvent):
+    event = get_object_or_404(Event, idEvent=idEvent)
+
+    return render(request, 'eventDetail.html', {'event': event})        
+
+
+def organizer(request):
+    if request.method == 'POST':
+        form = CreateOrganizer(request.POST)
+        if form.is_valid():
+            # Obtener datos del formulario
+            companyName = form.cleaned_data['companyName']
+            description = form.cleaned_data['description']
+            specialties = form.cleaned_data['specialties']
+               
+            organizer = Organizers(
+                companyName=companyName,
+                description=description,
+                idUser = request.user
+            )
+            organizer.save()
+            print("specialties", specialties)
+            for specialtie in specialties:
+                event_eventCategories = EspecialidadesDeOrganizador(
+                    idOrganizer = organizer,
+                    idSpecialty = specialtie
+                )
+                event_eventCategories.save()
+            return redirect('/') 
+
+    else:
+        form = CreateOrganizer()
+
+    return render(request, 'createOrganizer.html', {'form': form})
+     
 
 
 

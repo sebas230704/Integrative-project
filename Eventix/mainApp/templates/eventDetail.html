@@ -1,19 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
-    <h2>Events</h2>
-    {% for event in events %}
+    {% block content %}
+        <h1>Evento: </h1>
         <h1>{{ event.name }}</h1>
         <p>{{ event.descripcion }}</p>
         <p>Fecha: {{ event.date }}</p>
         <p>Ciudad: {{ event.city }}</p>
         <p>Lugar: {{ event.place }}</p>
         <p>Creado por: {{ event.idUser.username }}</p>
-    {% endfor %}
+    {% endblock %}
+
 </body>
+
 </html>

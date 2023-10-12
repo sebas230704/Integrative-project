@@ -21,6 +21,7 @@ class Space(models.Model):
 class Organizers(models.Model):
     idOrganizers = models.AutoField(primary_key=True)
     companyName = models.CharField(max_length=45, null=True)
+    description = models.CharField(max_length=202, null=True)
     idUser = models.ForeignKey(User, on_delete=models.CASCADE)
     
     class Meta:
@@ -45,6 +46,9 @@ class Event(models.Model):
 class Specialties(models.Model):
     idSpecialty = models.AutoField(primary_key=True)
     name = models.CharField(max_length=77, null=True)
+
+    def __str__(self):
+        return self.name
 
     class Meta:
         db_table = 'specialties'

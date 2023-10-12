@@ -13,11 +13,22 @@
         <h1>Busca por categorias</h1>
         {% for eventCategory in eventCategories %}
             <div>
-                <h4>{{ eventCategory.name }}</h4>
-                <p>{{ eventCategory.idEventCategorie }}</p>
-                <a href="{% url 'eventByCategory' eventCategory.idEventCategorie %}">Ver Categoría</a>
-
+                <a href="{% url 'eventByCategory' eventCategory.idEventCategorie %}">
+                    <h4>{{ eventCategory.name }}</h4>
+                </a>
             </div>
+        {% endfor %}
+        <h1>Eventos</h1>
+        {% for event in events %}
+           <a href="{% url 'eventDetail' event.idEvent %}">
+            <div>
+                <h3>{{ event.name }}</h3>
+                <p>{{ event.descripcion }}</p>
+                <p>{{ event.date }}</p>
+                <p>{{ event.city }}</p>
+                <p>{{ event.place }}</p>
+            </div>
+           </a>
         {% endfor %}
     {% endblock %}
 </body>
