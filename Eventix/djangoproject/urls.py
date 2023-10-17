@@ -29,4 +29,5 @@ urlpatterns = [
     path('eventByCategory/<int:categoria_id>', views.events, name='eventByCategory'),
     path('eventDetail/<int:idEvent>', views.eventDetail, name='eventDetail'),
     path('organizers/', views.organizer, name='organizer'),
+    path('preEvento/', views.planPreEvento, name='preEvento'),
 ]

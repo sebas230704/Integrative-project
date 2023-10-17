@@ -174,6 +174,34 @@ def organizer(request):
         form = CreateOrganizer()
 
     return render(request, 'createOrganizer.html', {'form': form})
+
+def planPreEvento(request):
+    organizers = Organizers.objects.all()
+
+    organizer_list = []
+
+    for organizer in organizers:
+        organizer_data = {
+            'idOrganizers': organizer.idOrganizers,
+            'companyName': organizer.companyName,
+            'description': organizer.description,
+            'idUser': organizer.idUser.id,
+            'especialidades': []
+        }
+        especialidades = EspecialidadesDeOrganizador.objects.filter(idOrganizer=organizer)
+        for especialidad in especialidades:
+            speciality_data = {
+                'idSpecialty': especialidad.idSpecialty.idSpecialty,
+                'name': especialidad.idSpecialty.name
+            }
+            organizer_data['especialidades'].append(speciality_data)
+        organizer_list.append(organizer_data)
+
+
+
+    if request.method == 'GET':
+        return render(request, 'planPre_event.html', {'organizers': organizer_list})
+
      
 
 

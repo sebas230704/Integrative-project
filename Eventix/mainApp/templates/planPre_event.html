@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>organiza tu evento</h1>
+{% for organizer in organizers %}
+    <h2>{{ organizer.companyName }}</h2>
+    <p>{{ organizer.description }}</p>
+    <ul>
+        {% for specialty in organizer.especialidades %}
+            <li>{{ specialty.name }}</li>
+        {% endfor %}
+    </ul>
+{% endfor %}
+
+<form method="POST" action="">
+    {% csrf_token %}
+    <button>
+        Save
+    </button>
+</form>
+
+{% endblock %}

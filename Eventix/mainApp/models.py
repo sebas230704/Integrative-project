@@ -20,8 +20,8 @@ class Space(models.Model):
 
 class Organizers(models.Model):
     idOrganizers = models.AutoField(primary_key=True)
-    companyName = models.CharField(max_length=45, null=True)
-    description = models.CharField(max_length=202, null=True)
+    companyName = models.CharField(max_length=45)
+    description = models.CharField(max_length=808)
     idUser = models.ForeignKey(User, on_delete=models.CASCADE)
     
     class Meta:
@@ -31,7 +31,7 @@ class Organizers(models.Model):
 class Event(models.Model):
     idEvent = models.AutoField(primary_key=True)
     name = models.CharField(max_length=45)
-    descripcion = models.CharField(max_length=202, null=True)
+    descripcion = models.CharField(max_length=808, null=True)
     date = models.DateTimeField()
     city = models.CharField(max_length=45)
     place = models.CharField(max_length=45)
@@ -65,6 +65,7 @@ class EspecialidadesDeOrganizador(models.Model):
 
 class Contractors(models.Model):
     idContractor = models.AutoField(primary_key=True)
+    idOrganizer = models.ForeignKey(Organizers, on_delete=models.CASCADE)
     idUser = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
@@ -77,6 +78,7 @@ class OrganizerRatings(models.Model):
     comment = models.CharField(max_length=202, null=True)
     date = models.DateTimeField(null=True)
     idOrganizer = models.ForeignKey(Organizers, on_delete=models.CASCADE)
+    idUser = models.ForeignKey(User, on_delete=models.CASCADE)
     idContractor = models.ForeignKey(Contractors, on_delete=models.CASCADE)
 
     class Meta:
