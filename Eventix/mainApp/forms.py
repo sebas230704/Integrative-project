@@ -10,7 +10,7 @@ class supplySpaceForm(ModelForm):
 
 class CreateNewEvent(forms.Form):
     name = forms.CharField(label="name", max_length=45, required=True)
-    description = forms.CharField(label="description", max_length=202, required=False)
+    description = forms.CharField(label="description", max_length=808, required=False)
     date = forms.DateField(label="date", required=True)
     city = forms.CharField(label="city", max_length=45, required=True)
     place = forms.CharField(label="place", max_length=45, required=True)
@@ -20,10 +20,11 @@ class CreateNewEvent(forms.Form):
         required=False
     )
 
-
 class CreateOrganizer(forms.Form):
     companyName = forms.CharField(label="Company Name", max_length=99, required=True)
-    description = forms.CharField(label="Description", max_length=202, required=True)
+    description = forms.CharField(label="Description", max_length=808, required=True)
+    telefono = forms.CharField(label="Telefono", max_length=20)
+    email = forms.CharField(label="Email", max_length=99, required=True)
     specialties = forms.ModelMultipleChoiceField(
         queryset= Specialties.objects.all(),
         widget=forms.CheckboxSelectMultiple,

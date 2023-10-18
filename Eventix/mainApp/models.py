@@ -22,6 +22,8 @@ class Organizers(models.Model):
     idOrganizers = models.AutoField(primary_key=True)
     companyName = models.CharField(max_length=45)
     description = models.CharField(max_length=808)
+    telefono = models.CharField(max_length=20, null=True)
+    email = models.CharField(max_length=99, null=True)
     idUser = models.ForeignKey(User, on_delete=models.CASCADE)
     
     class Meta:
@@ -35,6 +37,7 @@ class Event(models.Model):
     date = models.DateTimeField()
     city = models.CharField(max_length=45)
     place = models.CharField(max_length=45)
+    isPreEvento = models.IntegerField(null=True)
     idUser = models.ForeignKey(User, on_delete=models.CASCADE)
     
     class Meta:
@@ -89,6 +92,7 @@ class OrganizerRatings(models.Model):
 class PreEventos(models.Model):
     idContractor = models.ForeignKey(Contractors, on_delete=models.CASCADE)
     idOrganizer = models.ForeignKey(Organizers, on_delete=models.CASCADE)
+    idEvent = models.ForeignKey(Event, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'preEventos'

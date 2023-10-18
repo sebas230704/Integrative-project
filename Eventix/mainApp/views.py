@@ -68,6 +68,7 @@ def createEvent(request):
                 date=date,
                 city=city,
                 place=place,
+                isPreEvento=0,
                 idUser=request.user
             )
 
@@ -86,6 +87,98 @@ def createEvent(request):
 
     return render(request, 'createEvent.html', {'form': form})
 
+    # if request.method == 'POST':
+    #     #formPreEvent = CreateNewEvent(request.POST)
+    #     formEvent = CreateNewEvent(request.POST)
+    #     if formEvent.is_valid():
+    #         name = formEvent.cleaned_data['name']
+    #         description = formEvent.cleaned_data['description']
+    #         date = formEvent.cleaned_data['date']
+    #         city = formEvent.cleaned_data['city']
+    #         place = formEvent.cleaned_data['place']
+    #         category_ids = formEvent.cleaned_data['categories']
+
+    #         event = Event(
+    #             name=name,
+    #             descripcion=description,
+    #             date=date,
+    #             city=city,
+    #             place=place,
+    #             isPreEvento=0,
+    #             idUser=request.user
+    #         )
+
+    #         event.save()
+
+    #         for category in category_ids:
+    #             event_eventCategories = Event_eventCategories(
+    #                 idEvent = event,
+    #                 idEventCategorie = category
+    #             )
+    #             event_eventCategories.save()
+            
+           
+
+    #         for organizerId in organizerIds:
+    #             contractor = Contractors(
+    #                 idOrganizer = organizerId,
+    #                 idUser=request.user
+    #             )
+
+    #             contractor.save()
+
+    #             preEvent = PreEventos(
+    #                 idContractor = contractor,
+    #                 idOrganizer = organizerId,
+    #                 idEvent = event
+    #             )
+    #             preEvent.save()
+
+
+
+def planPreEvento(request):
+    organizers = Organizers.objects.all()
+    organizer_list = []
+
+    for organizer in organizers:
+        organizer_data = {
+            'idOrganizers': organizer.idOrganizers,
+            'companyName': organizer.companyName,
+            'description': organizer.description,
+            'idUser': organizer.idUser.id,
+            'especialidades': []
+        }
+        especialidades = EspecialidadesDeOrganizador.objects.filter(idOrganizer=organizer)
+        for especialidad in especialidades:
+            speciality_data = {
+                'idSpecialty': especialidad.idSpecialty.idSpecialty,
+                'name': especialidad.idSpecialty.name
+            }
+            organizer_data['especialidades'].append(speciality_data)
+        organizer_list.append(organizer_data)
+
+    
+    if request.method == 'POST':
+        selected_organizers = request.POST.getlist('selected_organizers')
+        selected_organizers_data = []
+
+        for organizer_id in selected_organizers:
+            organizer = Organizers.objects.get(idOrganizers=organizer_id)
+            selected_organizers_data.append({
+                'idOrganizers': organizer.idOrganizers,
+                'companyName': organizer.companyName,
+                'description': organizer.description,
+                'idUser': organizer.idUser.id,
+            })
+        
+        return render(request, 'planPre_event.html', {'selectedOrganizers': selected_organizers_data, 'organizers': organizer_list})
+
+
+
+    if request.method == 'GET':
+        return render(request, 'planPre_event.html', {'organizers': organizer_list})
+
+     
 
 def signout(request):
     logout(request)
@@ -153,11 +246,15 @@ def organizer(request):
             # Obtener datos del formulario
             companyName = form.cleaned_data['companyName']
             description = form.cleaned_data['description']
+            telefono = form.cleaned_data['telefono']
+            email = form.cleaned_data['email']
             specialties = form.cleaned_data['specialties']
                
             organizer = Organizers(
                 companyName=companyName,
                 description=description,
+                telefono=telefono,
+                email=email,
                 idUser = request.user
             )
             organizer.save()
@@ -174,35 +271,6 @@ def organizer(request):
         form = CreateOrganizer()
 
     return render(request, 'createOrganizer.html', {'form': form})
-
-def planPreEvento(request):
-    organizers = Organizers.objects.all()
-
-    organizer_list = []
-
-    for organizer in organizers:
-        organizer_data = {
-            'idOrganizers': organizer.idOrganizers,
-            'companyName': organizer.companyName,
-            'description': organizer.description,
-            'idUser': organizer.idUser.id,
-            'especialidades': []
-        }
-        especialidades = EspecialidadesDeOrganizador.objects.filter(idOrganizer=organizer)
-        for especialidad in especialidades:
-            speciality_data = {
-                'idSpecialty': especialidad.idSpecialty.idSpecialty,
-                'name': especialidad.idSpecialty.name
-            }
-            organizer_data['especialidades'].append(speciality_data)
-        organizer_list.append(organizer_data)
-
-
-
-    if request.method == 'GET':
-        return render(request, 'planPre_event.html', {'organizers': organizer_list})
-
-     
 
 
 
