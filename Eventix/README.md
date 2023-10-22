@@ -7,7 +7,7 @@ Bienvenido a Eventix, una plataforma versátil y completa diseñada para simplif
 
 - Python >3.8: [Descargar Python](https://www.python.org/downloads/)
 - pip: El gestor de paquetes de Python. Normalmente se instala junto con Python.
-- Virtualenv (recomendado)
+- Virtualenv (recomendado).
 
 
 ### 1. Clonar el Repositorio
