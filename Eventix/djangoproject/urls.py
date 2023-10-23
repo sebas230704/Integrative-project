@@ -17,6 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from mainApp import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,4 +32,4 @@ urlpatterns = [
     path('eventDetail/<int:idEvent>', views.eventDetail, name='eventDetail'),
     path('organizers/', views.organizer, name='organizer'),
     path('preEvento/', views.planPreEvento, name='preEvento'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
