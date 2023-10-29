@@ -7,6 +7,9 @@ from django.db import IntegrityError
 from .forms import *
 from .models import *
 from datetime import datetime
+from django.conf import settings
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
 
 # Create your views here.
 
@@ -47,7 +50,7 @@ def signup(request):
 
 def createEvent(request):
     if request.method == 'POST':
-        form = CreateNewEvent(request.POST)
+        form = CreateNewEvent(request.POST, request.FILES)
         if form.is_valid():
             # Varificamos is la instancia email en 'users' conincide con la instancia 'username' en auth_user
             # request.user nos retorna el username la cual es una email
@@ -60,6 +63,10 @@ def createEvent(request):
             city = form.cleaned_data['city']
             place = form.cleaned_data['place']
             category_ids = form.cleaned_data['categories']
+            if 'image' in form.cleaned_data:
+                image = form.cleaned_data['image']
+            else:
+                image = 'images/default.png'
 
                
             event = Event(
@@ -69,7 +76,8 @@ def createEvent(request):
                 city=city,
                 place=place,
                 isPreEvento=0,
-                idUser=request.user
+                idUser=request.user,
+                image=image
             )
 
             event.save()

@@ -41,10 +41,11 @@
                     {% for event in events %}
                         <div class="col">
                             <div class="card" style="width: 300px; height:400px;">
+                                <!--revisar esta parte para la generacion de imagenes, es event.image.url-->
+                                <img class="card-img-top" src="{{ event.image.url }}" />     
                                 <div class="card-body">
                                     <h5 class="card-title fwb-bold text-center">{{ event.name }}</h5>
                                 </div>
-                                <p>image up there</p>
                                 <p class="card-text">{{ event.date }}</p>
                                 <p class="card-text">{{ event.city }}</p>
                                 <p class="card-text">{{ event.place }}</p>

@@ -1,17 +1,53 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Pagina en construccion</h1>
-
-    <form action="/supply/space/" method="POST">
-        {% csrf_token %}
-        {{form}}
-
-        {{error}}
-
-        <button>
-            Save
-        </button>
-
+    <div class="vh-100 d-flex justify-content-center align-items-center" style="margin-bottom: 10%;">
+        <main  class="container">
+            <div class="row">
+                <section class="col-md-4 offset-md-4">
+                    <form action="/supply/space/" method="POST" class="card card-body" enctype="multipart/form-data">
+                    
+                    <h1 class="text-center"> Eventix </h1>
+                    <h2 class="text-center"> Create an event</h2>
+    
+                    {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="title">Name:</label>
+                                <input type="text" name="title" id="title" class="form-control"
+                                placeholder="Name of your space">
+                        </div>
+                        <div class="mb-3">
+                            <label for="capacity">max capacity:</label>
+                                <input type="date" name="capacity" id="capacity" class="form-control"
+                                placeholder="max. number of guests">
+                        </div>
+                        <div class="mb-3">
+                            <label for="address">Address:</label>
+                                <input type="address" name="address" id="address" class="form-control"
+                                placeholder="Address of your space">
+                        </div>
+                        <div class="mb-3">
+                            <label for="location">Location:</label>
+                                <input type="location" name="location" id="location" class="form-control"
+                                placeholder="Location where your event is">
+                        </div>
+                        <div class="mb-3">
+                            <label for="description">Description:</label>
+                                <textarea rows="5" name="description" id="description" class="form-control"
+                                placeholder="Brief description of your event"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="image">Image:</label>
+                            <input type="file" name="image" id="image" class="form-control"
+                            placeholder="Upload an image for your event">
+                        </div>
+                        <button class="btn btn-primary btn-block">
+                            Create
+                        </button>
+                    </form>
+                </section>
+            </div>
+        </main>
+    </div>
 {% endblock %}
 
