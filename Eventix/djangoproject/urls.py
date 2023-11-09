@@ -34,6 +34,10 @@ urlpatterns = [
     path('eventDetail/<int:idEvent>', views.eventDetail, name='eventDetail'),
     path('organizers/', views.organizer, name='organizer'),
     path('preEvento/', views.planPreEvento, name='preEvento'),
+    path('about/us', views.aboutUs, name='aboutUs'),
+    path('profile/', views.profile, name='profile'),
+    path('profile/edit/', views.edit_profile, name='edit_profile'),
+    path('analyzer/', views.analyzer, name='analyzer'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

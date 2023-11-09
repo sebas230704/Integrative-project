@@ -1,6 +1,9 @@
 from django import forms
 from django.forms import ModelForm
 from .models import *
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 class supplySpaceForm(ModelForm):
@@ -30,3 +33,17 @@ class CreateOrganizer(forms.Form):
         widget=forms.CheckboxSelectMultiple,
         required=False
     )
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['description', 'likes', 'location']
+        
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.userprofile.save()

@@ -290,3 +290,21 @@ def defDateTime(date):
     
     return dateTime
 
+def aboutUs(request):
+    return render(request, 'about_us.html')
+
+def profile(request):
+    return render(request, 'profile.html')
+
+def analyzer(request):
+    return render(request, 'analyzer.html')
+
+def edit_profile(request):
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, instance=request.user.userprofile)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+    else:
+        form = UserProfileForm(instance=request.user.userprofile)
+    return render(request, 'edit_profile.html', {'form': form})

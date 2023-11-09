@@ -151,6 +151,14 @@ class EventImages(models.Model):
 
     class Meta:
         db_table = 'eventImages'
+        
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    description = models.TextField(blank=True)
+    location = models.CharField(max_length=100, blank=True)
+    likes = models.CharField(max_length=100, blank=True)
+    
 
 
 
