@@ -42,6 +42,7 @@ class Event(models.Model):
     image = models.ImageField(upload_to='images/', default='default.png')
     idUser = models.ForeignKey(User, on_delete=models.CASCADE)
     
+    
     class Meta:
         db_table = 'event'
     

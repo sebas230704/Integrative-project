@@ -6,27 +6,68 @@
     {% csrf_token %}
     <ul>
         {% for organizer in organizers %}
-            <li>
-                <h2>{{ organizer.companyName }}</h2>
-                <p>{{ organizer.description }}</p>
-                <p>{{ organizer.telefono }}</p>
-                <p>{{ organizer.email }}</p>
-                <ul>
-                    {% for specialty in organizer.especialidades %}
-                        <li>{{ specialty.name }}</li>
-                    {% endfor %}
-                </ul>
-                <input type="checkbox" name="selected_organizers" value="{{ organizer.idOrganizers }}"> Seleccionar
-            </li>
+        <li>
+            <h2>{{ organizer.companyName }}</h2>
+            <p>{{ organizer.description }}</p>
+            <p>{{ organizer.telefono }}</p>
+            <p>{{ organizer.email }}</p>
+            <ul>
+                {% for specialty in organizer.especialidades %}
+                <li>{{ specialty.name }}</li>
+                {% endfor %}
+            </ul>
+            <input type="checkbox" name="selected_organizers" value="{{ organizer.idOrganizers }}"> Seleccionar
+        </li>
         {% endfor %}
     </ul>
-    <button type="submit">Guardar Selección</button>
+
+    <section class="col-md-4 offset-md-2">
+
+        <h1 class="text-center"> Eventix </h1>
+        <h2 class="text-center"> Create an event</h2>
+
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="name">Name:</label>
+            <input type="text" name="name" id="name" class="form-control" placeholder="Name for your event">
+        </div>
+        <div class="mb-3">
+            <label for="date">Date:</label>
+            <input type="date" name="date" id="date" class="form-control" placeholder="Date of your event">
+        </div>
+        <div class="mb-3">
+            <label for="city">City:</label>
+            <input type="city" name="city" id="city" class="form-control" placeholder="City where your event is">
+        </div>
+        <div class="mb-3">
+            <label for="place">Place:</label>
+            <input type="place" name="place" id="place" class="form-control"
+                placeholder="Address / place where your event is">
+        </div>
+        <div class="mb-3">
+            <label for="description">Description:</label>
+            <textarea rows="5" name="description" id="description" class="form-control"
+                placeholder="Brief description of your event"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="image">Image:</label>
+            <input type="file" name="image" id="image" class="form-control"
+                placeholder="Upload an image for your event">
+        </div>
+        <button class="btn btn-primary btn-block">
+            Guardar seleccion
+        </button>
+    </section>
+
 </form>
+
+
+
 
 
 <h1>organizadores Seleccionados</h1>
 {% for selectOrganizer in selectedOrganizers %}
-    <h2>{{ selectOrganizer.companyName }}</h2>
+<h2>{{ selectOrganizer.companyName }}</h2>
 {% endfor %}
 
 

@@ -35,29 +35,28 @@
                     </div>
                 {% endfor %}
 
-
                 <h1 class="text-center display-6" >Eventos</h1>
                 <div class="row row-cols1 wor-cols-md3 g-4">
                     {% for event in events %}
-                        <div class="col">
-                            <div class="card" style="width: 300px; height:400px;">
-                                <!--revisar esta parte para la generacion de imagenes, es event.image.url-->
-                                <img class="card-img-top" src="{{ event.image.url }}" />     
-                                <div class="card-body">
-                                    <h5 class="card-title fwb-bold text-center">{{ event.name }}</h5>
-                                </div>
-                                <p class="card-text">{{ event.date }}</p>
-                                <p class="card-text">{{ event.city }}</p>
-                                <p class="card-text">{{ event.place }}</p>
-                                <form class="d-flex align-items-center justify-content-center" action="{% url 'eventDetail' event.idEvent %}">
-                                    <button class="text-center" type="submit" style="margin-bottom: 10px;">Read More</button>
-                                </form>
-                            </div>  
-                        </div>
+                        {% if event.isPreEvento == 0 %}
+                            <div class="col">
+                                <div class="card" style="width: 300px; height:400px;">
+                                    <!--revisar esta parte para la generacion de imagenes, es event.image.url-->
+                                    <img class="card-img-top" src="{{ event.image.url }}" />     
+                                    <div class="card-body">
+                                        <h5 class="card-title fwb-bold text-center">{{ event.name }}</h5>
+                                    </div>
+                                    <p class="card-text">{{ event.date }}</p>
+                                    <p class="card-text">{{ event.city }}</p>
+                                    <p class="card-text">{{ event.place }}</p>
+                                    <form class="d-flex align-items-center justify-content-center" action="{% url 'eventDetail' event.idEvent %}">
+                                        <button class="text-center" type="submit" style="margin-bottom: 10px;">Read More</button>
+                                    </form>
+                                </div>  
+                            </div>
+                        {% endif %}
                     {% endfor %}
                 </div>
-                
-                
             </div>
         </div>
     </main>

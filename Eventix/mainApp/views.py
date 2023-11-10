@@ -17,6 +17,11 @@ from django.core.files.base import ContentFile
 def home(request):
     eventCategories = EventCategories.objects.all
     events = Event.objects.all()
+    print("FUNCIAON")
+    for event in events:
+        print(event.date)
+        print(event.image)
+
     return render(request, 'home.html', {
         'eventCategories': eventCategories, 
         'events': events
@@ -169,17 +174,77 @@ def planPreEvento(request):
     if request.method == 'POST':
         selected_organizers = request.POST.getlist('selected_organizers')
         selected_organizers_data = []
-
-        for organizer_id in selected_organizers:
-            organizer = Organizers.objects.get(idOrganizers=organizer_id)
-            selected_organizers_data.append({
-                'idOrganizers': organizer.idOrganizers,
-                'companyName': organizer.companyName,
-                'description': organizer.description,
-                'idUser': organizer.idUser.id,
-            })
+        form = CreateNewEvent(request.POST, request.FILES)
         
-        return render(request, 'planPre_event.html', {'selectedOrganizers': selected_organizers_data, 'organizers': organizer_list})
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            description = form.cleaned_data['description']
+            date = form.cleaned_data['date']
+            city = form.cleaned_data['city']
+            place = form.cleaned_data['place']
+            category_ids = form.cleaned_data['categories']
+            if 'image' in form.cleaned_data:
+                image = form.cleaned_data['image']
+            else:
+                image = 'images/default.png'
+
+            event = Event(
+                name=name,
+                descripcion=description,
+                date=date,
+                city=city,
+                place=place,
+                isPreEvento=1,
+                idUser=request.user,
+                image=image
+            )
+            
+            event.save()
+
+            # for category in category_ids:
+            #     event_eventCategories = Event_eventCategories(
+            #         idEvent = event,
+            #         idEventCategorie = category
+            #     )
+            #     event_eventCategories.save()
+
+
+            idOrganicerAux = 0
+            for organizer_id in selected_organizers:
+                organizer = Organizers.objects.get(idOrganizers=organizer_id)
+                selected_organizers_data.append({
+                    'idOrganizers': organizer.idOrganizers,
+                    'companyName': organizer.companyName,
+                    'description': organizer.description,
+                    'idUser': organizer.idUser.id,
+                })
+
+                if organizer_id != idOrganicerAux:
+
+                    idOrganicerAux = idOrganicerAux
+                    contractor = Contractors(
+                        idOrganizer = organizer,
+                        idUser = request.user
+                    )
+                    
+                    contractor.save()
+
+                    preEvent = PreEventos(
+                        idContractor = contractor,
+                        idOrganizer = organizer,
+                        idEvent = event
+                    )
+
+                    preEvent.save()
+
+
+
+                
+
+
+
+            
+            return render(request, 'planPre_event.html', {'selectedOrganizers': selected_organizers_data, 'organizers': organizer_list})
 
 
 
@@ -237,6 +302,8 @@ def events(request, categoria_id):
     categoria = EventCategories.objects.get(pk=categoria_id)
     # Consulta los eventos relacionados con la categoría
     events = Event.objects.filter(event_eventcategories__idEventCategorie=categoria)
+    print("FUNCIONA")
+   
     
     return render(request, 'events.html', {'events': events})        
 

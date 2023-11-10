@@ -32,7 +32,7 @@ class CreateOrganizer(forms.Form):
         queryset= Specialties.objects.all(),
         widget=forms.CheckboxSelectMultiple,
         required=False
-    )
+    )    
 
 class UserProfileForm(forms.ModelForm):
     class Meta:
