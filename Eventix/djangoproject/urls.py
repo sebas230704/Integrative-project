@@ -38,6 +38,7 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path('profile/edit/', views.edit_profile, name='edit_profile'),
     path('analyzer/', views.analyzer, name='analyzer'),
+    path('myPreEvents/', views.myPreEvents, name='myPreEvents'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

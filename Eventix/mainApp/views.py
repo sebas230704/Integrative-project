@@ -17,10 +17,6 @@ from django.core.files.base import ContentFile
 def home(request):
     eventCategories = EventCategories.objects.all
     events = Event.objects.all()
-    print("FUNCIAON")
-    for event in events:
-        print(event.date)
-        print(event.image)
 
     return render(request, 'home.html', {
         'eventCategories': eventCategories, 
@@ -226,7 +222,7 @@ def planPreEvento(request):
                         idOrganizer = organizer,
                         idUser = request.user
                     )
-                    
+
                     contractor.save()
 
                     preEvent = PreEventos(
@@ -236,20 +232,39 @@ def planPreEvento(request):
                     )
 
                     preEvent.save()
-
-
-
-                
-
-
-
             
             return render(request, 'planPre_event.html', {'selectedOrganizers': selected_organizers_data, 'organizers': organizer_list})
 
 
-
     if request.method == 'GET':
         return render(request, 'planPre_event.html', {'organizers': organizer_list})
+
+
+
+def myPreEvents(request):
+    current_user = request.user
+    
+    events = Event.objects.filter(idUser=current_user)
+    
+    events_with_organizers = {}
+    
+    for event in events:
+        # Obtener los ID de los organizadores asociados a este evento
+        organizers_ids = PreEventos.objects.filter(idEvent=event).values_list('idOrganizer', flat=True)
+        
+        # Obtener los objetos de Organizers utilizando los IDs obtenidos
+        organizers = Organizers.objects.filter(idOrganizers__in=organizers_ids)
+        
+        # Almacena el evento y sus organizadores en el diccionario
+        events_with_organizers[event] = organizers
+    
+    print(events_with_organizers)
+
+    return render(request, 'myPreEvents.html', {
+        'events_with_organizers': events_with_organizers
+    })
+
+
 
      
 
@@ -375,3 +390,4 @@ def edit_profile(request):
     else:
         form = UserProfileForm(instance=request.user.userprofile)
     return render(request, 'edit_profile.html', {'form': form})
+    
