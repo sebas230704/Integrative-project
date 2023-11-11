@@ -1,0 +1,68 @@
+{%extends 'base.html'%}
+    {% block content %}
+
+
+    {% if esMiPerfil == 1 %}
+         <h2>Tu Perfil</h2>
+    {% elif esMiPerfil == 0%}
+        <h2>Otro perfil</h2>
+    {% endif %}
+
+
+    {% if principal_profile %}
+        <p>Description: {{ principal_profile.description }}</p>
+        <img src="{{ principal_profile.profilePhoto.url }}" alt="Profile Photo" style="max-width: 350px; max-height: 350px;">
+    {% endif %}
+    {% if principal_profile.secondaryPhoto %}
+        <img src="{{ principal_profile.secondaryPhoto.url }}" alt="Profile Photo" style="max-width: 450px; max-height: 450px;">
+    {% endif %}
+
+
+    {% if esMiPerfil == 1 %}
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="profile_photo">
+            <input type="submit" value="Guardar imagen de perfil">
+        </form>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="secondary_photo">
+            <input type="submit" value="Guardar imagen secundaria">
+        </form>
+    {% endif %}
+
+    {% if user_events %}
+        {% if esMiPerfil == 1 %}
+            <h3>Tus eventos</h3>
+        {% elif esMiPerfil == 0 %}
+            <h3></h3>
+        {% endif %}
+        {% for user_event in user_events %}
+            {% if user_event.isPreEvento == 0 %}
+                <div class="col">
+                    <div class="card" style="width: 300px; height:400px;">
+                        <!--revisar esta parte para la generacion de imagenes, es event.image.url-->
+                        <img class="card-img-top" src="{{ event.image.url }}" />
+                        <div class="card-body">
+                            <h5 class="card-title fwb-bold text-center">{{ user_event.name }}</h5>
+                        </div>
+                        <p class="card-text">{{ user_event.date }}</p>
+                        <p class="card-text">{{ user_event.city }}</p>
+                        <p class="card-text">{{ user_event.place }}</p>
+                        <form class="d-flex align-items-center justify-content-center" action="{% url 'eventDetail' user_event.idEvent %}">
+                            <button class="text-center" type="submit" style="margin-bottom: 10px;">Read More</button>
+                        </form>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        {% if esMiPerfil == 1 %}
+            <h3>No tienes eventos que mostrar</h3>
+        {% elif esMiPerfil == 0 %}
+            <h3>Este usuario no tiene evento para mostrar</h3>
+        {% endif %}
+    {% endif %}
+
+
+{% endblock %}

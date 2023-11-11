@@ -39,6 +39,8 @@ urlpatterns = [
     path('profile/edit/', views.edit_profile, name='edit_profile'),
     path('analyzer/', views.analyzer, name='analyzer'),
     path('myPreEvents/', views.myPreEvents, name='myPreEvents'),
+    path('principalProfile/<int:idUser>', views.principalProfile, name='principalProfile'),
+    
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

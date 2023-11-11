@@ -323,10 +323,12 @@ def events(request, categoria_id):
     return render(request, 'events.html', {'events': events})        
 
 
-def eventDetail(request, idEvent):
-    event = get_object_or_404(Event, idEvent=idEvent)
 
-    return render(request, 'eventDetail.html', {'event': event})        
+def eventDetail(request, idEvent):
+    event = get_object_or_404(Event, idEvent=idEvent) 
+    userByEvent = event.idUser
+
+    return render(request, 'eventDetail.html', {'event': event, 'userByEvent': userByEvent})
 
 
 def organizer(request):
@@ -390,4 +392,33 @@ def edit_profile(request):
     else:
         form = UserProfileForm(instance=request.user.userprofile)
     return render(request, 'edit_profile.html', {'form': form})
+
+
+def principalProfile(request, idUser):
+    user = User.objects.get(pk=idUser)
+    user_events = Event.objects.filter(idUser=idUser)
+
+    esMiPerfil = 0
+    myIdUser = request.user.id
+
+    if myIdUser == idUser:
+        esMiPerfil = 1
+        
+    try:
+        principal_profile = PrincipalProfile.objects.get(idUser=user)
+    except PrincipalProfile.DoesNotExist:
+        principal_profile = PrincipalProfile.objects.create(idUser=user)
+
+    if request.method == 'POST':
+        if 'profile_photo' in request.FILES:
+            principal_profile.profilePhoto = request.FILES['profile_photo']
+            principal_profile.save()
+        if 'secondary_photo' in request.FILES:
+            principal_profile.secondaryPhoto = request.FILES['secondary_photo']
+            principal_profile.save()
+
+    return render(request, 'principalProfile.html', {'esMiPerfil': esMiPerfil, 'principal_profile': principal_profile, 'user_events': user_events})
+
+
+
     

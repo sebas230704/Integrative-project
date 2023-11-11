@@ -31,6 +31,7 @@ class Organizers(models.Model):
         db_table = 'organizers'
 
 
+# The `Event` class represents a model for storing information about events in a database.
 class Event(models.Model):
     idEvent = models.AutoField(primary_key=True)
     name = models.CharField(max_length=45)
@@ -39,14 +40,15 @@ class Event(models.Model):
     city = models.CharField(max_length=45)
     place = models.CharField(max_length=45)
     isPreEvento = models.IntegerField(null=True)
+    like = models.IntegerField(null=True)
     image = models.ImageField(upload_to='images/', default='default.png')
+
     idUser = models.ForeignKey(User, on_delete=models.CASCADE)
     
     
     class Meta:
         db_table = 'event'
     
-
 
 
 class Specialties(models.Model):
@@ -161,6 +163,14 @@ class UserProfile(models.Model):
     likes = models.CharField(max_length=100, blank=True)
     
 
+class PrincipalProfile(models.Model):
+    idUser = models.ForeignKey(User, on_delete=models.CASCADE)
+    description = models.CharField(max_length=808, null=True)
+    profilePhoto = models.ImageField(upload_to='profile_photos/', default='default.jpg')
+    secondaryPhoto = models.ImageField(upload_to='profile_photos/secondary/', default='default.jpg')
+
+    class Meta:
+        db_table = 'principalProfiles'
+        
 
 
-    
