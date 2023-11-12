@@ -43,6 +43,11 @@
                         <input type="file" name="image" id="image" class="form-control"
                         placeholder="Upload an image for your event">
                     </div>
+                    <div class="mb-3">
+                        <label for="{{ form.categories.id_for_label }}">Categories:</label>
+                        {{ form.categories }}
+                    </div>
+                    
                     <button class="btn btn-primary btn-block">
                         Create
                     </button>
