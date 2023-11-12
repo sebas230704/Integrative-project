@@ -9,25 +9,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tus Eventos</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="boxicons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
 </head>
 <body>
-    <h1>Eventos</h1>
-    <div class="container">
 
+    <div class="line-filters">
+        <div class="navbar-filters">
+            {% for eventCategory in eventCategories %}
+                <div class="navbar-cards">
+                    <a href="{% url 'eventByCategory' eventCategory.idEventCategorie %}">
+                        <h5>{{ eventCategory.name }}</h5>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="arrow">
+
+        </div>
+    </div>
+
+    <div class="container">
         <div class="events-container">
             {% for event in events %}
                 {% if event.isPreEvento == 0 %}
-                    <div class="event-card">
-                        <div class="card-image">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR93msRHF1swmKyiSa1t9lxHOGuNT7K2HeLQT1KkLqQ&s">
+                    <a href="{% url 'eventDetail' event.idEvent %}">
+                        <div class="event-card">
+                            <div class="card-image">
+                                <img src="">
+                            </div>
+                            <div class="card-body">
+                                <h2>{{ event.name }}</h2>
+                                <p class="date">{{ event.date }}</p>
+                                <p class="city">{{ event.city }}</p>
+                                <p class="place">{{ event.place }}</p>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <h2>{{ event.name }}</h2>
-                            <p class="date">{{ event.date }}</p>
-                            <p class="city">{{ event.city }}</p>
-                            <p class="place">{{ event.place }}</p>
-                        </div>
-                    </div>
+                    </a>
                 {% endif %}
             {% endfor %}
         </div>

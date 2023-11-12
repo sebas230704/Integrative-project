@@ -4,13 +4,8 @@
 }
 
 .container {
-    margin-left: 80px;
-    margin-right: 80px;
-}
-
-h1 {
-    text-align: center;
-    margin-top: 20px;
+    margin-left: 50px;
+    margin-right: 50px;
 }
 
 .events-container {
@@ -73,3 +68,42 @@ h1 {
     border: 1px;
     overflow: hidden;
 }
+
+.line-filters {
+    background-color: #ffffff;
+    width: 100%;
+    height: 70px;
+    border-top: 1px solid #e2dcdc;
+    border-bottom: 1px solid #e2dcdc;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.navbar-filters {
+    margin-left:80px;
+    display:flex;
+    text-align: center;
+    align-items: center;
+    height: 70px;
+    justify-content: center;
+    
+}
+
+.navbar-cards:hover {
+    border-bottom: 2px solid black;
+
+}
+
+.navbar-cards {
+    margin-right: 50px;
+    align-items: center;
+    scroll-snap-align: start;
+}
+
+.navbar-cards h5{
+    color:rgb(77, 67, 67)
+}
+
+
+
+/* Añade estilos adicionales según sea necesario */
+
