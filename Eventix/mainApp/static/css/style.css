@@ -8,6 +8,9 @@
 
 body {
     background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 header {
@@ -100,4 +103,12 @@ header {
     display: block;
     text-align: center;
 
+}
+
+footer{
+    background: rgb(189, 255, 230);
+    line-height: 70px;
+    border-top: solid 1px #000000;
+    text-align: center;
+    margin-top: auto;
 }

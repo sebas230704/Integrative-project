@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
     <div class="vh-100 d-flex justify-content-center align-items-center" style="margin-bottom: 10%;">
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
         <main  class="container">
             <div class="row">
                 <section class="col-md-4 offset-md-4">
@@ -17,28 +18,28 @@
                                 placeholder="Name of your space">
                         </div>
                         <div class="mb-3">
-                            <label for="capacity">max capacity:</label>
-                                <input type="date" name="capacity" id="capacity" class="form-control"
-                                placeholder="max. number of guests">
+                            <label for="capacity">Max capacity:</label>
+                                <input type="number" name="capacity" id="capacity" class="form-control"
+                                placeholder="Maximum number of guests" min="0">
                         </div>
                         <div class="mb-3">
                             <label for="address">Address:</label>
                                 <input type="address" name="address" id="address" class="form-control"
-                                placeholder="Address of your space">
+                                placeholder="Address where your space is located">
                         </div>
                         <div class="mb-3">
                             <label for="location">Location:</label>
                                 <input type="location" name="location" id="location" class="form-control"
-                                placeholder="Location where your event is">
+                                placeholder="Location of your space">
                         </div>
                         <div class="mb-3">
                             <label for="description">Description:</label>
                                 <textarea rows="5" name="description" id="description" class="form-control"
-                                placeholder="Brief description of your event"></textarea>
+                                placeholder="Brief description of your space and its purpose"></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="image">Image:</label>
-                            <input type="file" name="image" id="image" class="form-control"
+                            <input type="file" name="image" id="image" class="btn btn-upload"
                             placeholder="Upload an image for your event">
                         </div>
                         <button class="btn btn-primary btn-block">
@@ -50,4 +51,3 @@
         </main>
     </div>
 {% endblock %}
-

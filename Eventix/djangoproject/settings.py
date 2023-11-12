@@ -78,9 +78,9 @@ WSGI_APPLICATION = 'djangoproject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'eventix',
+        'NAME': 'eventix_db',
         'USER': 'root',
-        'PASSWORD': 'sebasgamer1',
+        'PASSWORD': 'root',
         'HOST': 'localhost',  # Puede variar según la configuración de tu servidor MySQL
         'PORT': '3306',           # Deja en blanco para usar el puerto predeterminado
     }

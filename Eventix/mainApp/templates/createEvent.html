@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
 
 <div class="vh-100 d-flex justify-content-center align-items-center" style="margin-bottom: 10%;">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <main  class="container">
         <div class="row">
             <section class="col-md-4 offset-md-4">
@@ -25,7 +26,7 @@
                     <div class="mb-3">
                         <label for="city">City:</label>
                             <input type="city" name="city" id="city" class="form-control"
-                            placeholder="City where your event is">
+                            placeholder="City where your event is taking place">
                     </div>
                     <div class="mb-3">
                         <label for="place">Place:</label>
