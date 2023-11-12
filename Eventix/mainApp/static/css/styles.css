@@ -69,7 +69,6 @@
     overflow: hidden;
 }
 
-<<<<<<< HEAD
 form {
     width: 400px;
     margin: 20px auto;
@@ -121,7 +120,6 @@ input, textarea{
     width: 350px;
     background-color: white;
 }
-=======
 .line-filters {
     background-color: #ffffff;
     width: 100%;
@@ -156,8 +154,10 @@ input, textarea{
     color:rgb(77, 67, 67)
 }
 
+h1{
+    text-align: center;
+}
 
 
 /* Añade estilos adicionales según sea necesario */
 
->>>>>>> 40d1ff046e53927500f51743cc1cfd98fec52653
