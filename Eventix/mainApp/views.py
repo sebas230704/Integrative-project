@@ -185,8 +185,7 @@ def planPreEvento(request):
 
                     preEvent.save()
             
-            return render(request, 'planPre_event.html', {'selectedOrganizers': selected_organizers_data, 'organizers': organizer_list})
-
+            return redirect('myPreEvents')
 
     if request.method == 'GET':
         return render(request, 'planPre_event.html', {'organizers': organizer_list})
@@ -363,13 +362,30 @@ def principalProfile(request, idUser):
     esMiPerfil = 0
     myIdUser = request.user.id
 
+    userActual = request.user
+
+    
     if myIdUser == idUser:
         esMiPerfil = 1
-        
+    
     try:
         principal_profile = PrincipalProfile.objects.get(idUser=user)
     except PrincipalProfile.DoesNotExist:
         principal_profile = PrincipalProfile.objects.create(idUser=user)
+    
+    if Organizers.objects.filter(idUser=user).exists():
+        organizer = Organizers.objects.get(idUser=user)
+        id_organizerIfExist = organizer.idOrganizers
+        organizer = get_object_or_404(Organizers, idOrganizers=id_organizerIfExist)
+    
+        try:
+            organizer_rating = OrganizerRatings.objects.get(idOrganizer=organizer, idUser=userActual)
+            current_rating = organizer_rating.rating
+        except OrganizerRatings.DoesNotExist:
+            current_rating = 0
+    else: 
+        id_organizerIfExist = 0
+        current_rating = 0
 
     if request.method == 'POST':
         if 'profile_photo' in request.FILES:
@@ -379,7 +395,7 @@ def principalProfile(request, idUser):
             principal_profile.secondaryPhoto = request.FILES['secondary_photo']
             principal_profile.save()
 
-    return render(request, 'principalProfile.html', {'esMiPerfil': esMiPerfil, 'principal_profile': principal_profile, 'user_events': user_events})
+    return render(request, 'principalProfile.html', {'esMiPerfil': esMiPerfil, 'principal_profile': principal_profile, 'user_events': user_events, 'id_organizerIfExist': id_organizerIfExist, 'current_rating': current_rating})
 
 
 from django.shortcuts import get_object_or_404
@@ -403,3 +419,35 @@ def toggle_like(request, evento_id):
         likes_count = EventLikes.objects.filter(idEvent=evento_id).count()
 
         return JsonResponse({'liked': liked, 'likes_count': likes_count})
+
+
+
+def rate_organizer(request, idOrganizer):
+    if request.method == 'POST':
+        user = request.user
+        rating = int(request.POST.get('rating'))
+
+        organizer = get_object_or_404(Organizers, idOrganizers=idOrganizer)
+
+        try:
+            # Verificar si ya existe una calificación para este usuario y organizador
+            organizer_rating = OrganizerRatings.objects.get(idOrganizer=organizer, idUser=user)
+            if rating == organizer_rating.rating:
+                organizer_rating.delete()
+            else:
+                organizer_rating.rating = rating
+                organizer_rating.save()
+        except OrganizerRatings.DoesNotExist:
+            # Si no existe, crea una nueva calificación
+            organizer_rating = OrganizerRatings.objects.create(
+                rating=rating,
+                idUser=user,
+                idOrganizer=organizer
+            )
+        
+        return JsonResponse({'message': 'Calificación exitosa'})
+
+    return JsonResponse({'message': 'Error en la calificación'})
+
+
+

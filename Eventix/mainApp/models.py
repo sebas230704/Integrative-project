@@ -91,10 +91,9 @@ class OrganizerRatings(models.Model):
     date = models.DateTimeField(null=True)
     idOrganizer = models.ForeignKey(Organizers, on_delete=models.CASCADE)
     idUser = models.ForeignKey(User, on_delete=models.CASCADE)
-    idContractor = models.ForeignKey(Contractors, on_delete=models.CASCADE)
 
     class Meta:
-        db_table = 'organizerRatings'
+        db_table = 'organizerRatings'   
 
 
 

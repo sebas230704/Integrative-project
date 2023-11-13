@@ -41,6 +41,7 @@ urlpatterns = [
     path('myPreEvents/', views.myPreEvents, name='myPreEvents'),
     path('principalProfile/<int:idUser>', views.principalProfile, name='principalProfile'),
     path('toggle_like/<int:evento_id>', views.toggle_like, name='incrementar_likes'),
+    path('rate_organizer/<int:idOrganizer>/', views.rate_organizer, name='rate_organizer'),
 
     
 ]
