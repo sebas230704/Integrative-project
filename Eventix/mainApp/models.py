@@ -12,7 +12,7 @@ class Space(models.Model):
     location = models.CharField(max_length=255)
     description = models.TextField(blank = True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='images/', default='default.png')
+    image = models.ImageField(upload_to='images/')
     
     def __str__(self): #es para que en admin aparezca el nombre del objeto y no "obecjt(x)"
         return self.title
