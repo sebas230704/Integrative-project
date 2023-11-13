@@ -40,17 +40,21 @@ class Event(models.Model):
     city = models.CharField(max_length=45)
     place = models.CharField(max_length=45)
     isPreEvento = models.IntegerField(null=True)
-    like = models.IntegerField(null=True)
     image = models.ImageField(upload_to='images/', default='default.png')
-
     idUser = models.ForeignKey(User, on_delete=models.CASCADE)
-    
     
     class Meta:
         db_table = 'event'
+
+class EventLikes(models.Model):
+    idUser = models.ForeignKey(User, on_delete=models.CASCADE)
+    idEvent = models.ForeignKey(Event, on_delete=models.CASCADE)
+    like = models.IntegerField(default=0, null=True)
     
+    class Meta:
+        db_table = 'eventLikes'
 
-
+    
 class Specialties(models.Model):
     idSpecialty = models.AutoField(primary_key=True)
     name = models.CharField(max_length=77, null=True)
