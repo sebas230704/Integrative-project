@@ -41,7 +41,7 @@ class Event(models.Model):
     place = models.CharField(max_length=45)
     isPreEvento = models.IntegerField(null=True)
     like = models.IntegerField(null=True)
-    image = models.ImageField(upload_to='images/', default='default.png')
+    image = models.ImageField(upload_to='images/', null=True)
 
     idUser = models.ForeignKey(User, on_delete=models.CASCADE)
     

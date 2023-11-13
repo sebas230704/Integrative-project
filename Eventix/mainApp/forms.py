@@ -22,6 +22,11 @@ class CreateNewEvent(forms.Form):
         widget=forms.CheckboxSelectMultiple,
         required=False
     )
+    image = forms.ImageField(required=False)
+
+    class Meta:
+        model = Event
+        fields = ['name', 'description', 'date', 'city', 'place', 'categories', 'image']
 
 class CreateOrganizer(forms.Form):
     companyName = forms.CharField(label="Company Name", max_length=99, required=True)

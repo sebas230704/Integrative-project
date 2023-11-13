@@ -107,9 +107,9 @@ header {
 }
 
 footer{
-    background: rgb(189, 255, 230);
+    background: rgb(244, 247, 246);
     line-height: 70px;
-    border-top: solid 1px #000000;
+    border-top: solid 1px #d4cbcb;
     text-align: center;
     margin-top: auto;
 }
