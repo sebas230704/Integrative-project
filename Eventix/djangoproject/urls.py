@@ -40,6 +40,8 @@ urlpatterns = [
     path('analyzer/', views.analyzer, name='analyzer'),
     path('myPreEvents/', views.myPreEvents, name='myPreEvents'),
     path('principalProfile/<int:idUser>', views.principalProfile, name='principalProfile'),
+    path('toggle_like/<int:evento_id>', views.toggle_like, name='incrementar_likes'),
+
     
 ]
 

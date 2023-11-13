@@ -96,54 +96,6 @@ def createEvent(request):
 
     return render(request, 'createEvent.html', {'form': form})
 
-    # if request.method == 'POST':
-    #     #formPreEvent = CreateNewEvent(request.POST)
-    #     formEvent = CreateNewEvent(request.POST)
-    #     if formEvent.is_valid():
-    #         name = formEvent.cleaned_data['name']
-    #         description = formEvent.cleaned_data['description']
-    #         date = formEvent.cleaned_data['date']
-    #         city = formEvent.cleaned_data['city']
-    #         place = formEvent.cleaned_data['place']
-    #         category_ids = formEvent.cleaned_data['categories']
-
-    #         event = Event(
-    #             name=name,
-    #             descripcion=description,
-    #             date=date,
-    #             city=city,
-    #             place=place,
-    #             isPreEvento=0,
-    #             idUser=request.user
-    #         )
-
-    #         event.save()
-
-    #         for category in category_ids:
-    #             event_eventCategories = Event_eventCategories(
-    #                 idEvent = event,
-    #                 idEventCategorie = category
-    #             )
-    #             event_eventCategories.save()
-            
-           
-
-    #         for organizerId in organizerIds:
-    #             contractor = Contractors(
-    #                 idOrganizer = organizerId,
-    #                 idUser=request.user
-    #             )
-
-    #             contractor.save()
-
-    #             preEvent = PreEventos(
-    #                 idContractor = contractor,
-    #                 idOrganizer = organizerId,
-    #                 idEvent = event
-    #             )
-    #             preEvent.save()
-
-
 
 def planPreEvento(request):
     organizers = Organizers.objects.all()
@@ -325,10 +277,20 @@ def events(request, categoria_id):
 
 
 def eventDetail(request, idEvent):
-    event = get_object_or_404(Event, idEvent=idEvent) 
+    event = get_object_or_404(Event, idEvent=idEvent)
     userByEvent = event.idUser
 
-    return render(request, 'eventDetail.html', {'event': event, 'userByEvent': userByEvent})
+    # Verificar si existe un registro en EventLikes con idUser y idEvent específicos
+    try:
+        like_instance = EventLikes.objects.get(idUser=userByEvent, idEvent=event)
+        # El registro existe
+        exists = True
+    except EventLikes.DoesNotExist:
+        # El registro no existe
+        exists = False
+
+    return render(request, 'eventDetail.html', {'event': event, 'userByEvent': userByEvent, 'like_exists': exists})
+
 
 
 def organizer(request):
@@ -420,5 +382,24 @@ def principalProfile(request, idUser):
     return render(request, 'principalProfile.html', {'esMiPerfil': esMiPerfil, 'principal_profile': principal_profile, 'user_events': user_events})
 
 
+from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
 
-    
+
+def toggle_like(request, evento_id):
+    if request.method == 'POST':
+        user_id = 1  # Obtén el ID del usuario de alguna manera (deberías usar el ID del usuario actual)
+
+        evento = get_object_or_404(Event, pk=evento_id)
+        user_liked = EventLikes.objects.filter(idEvent=evento_id, idUser=user_id).first()
+
+        if user_liked:
+            user_liked.delete()
+            liked = False
+        else:
+            EventLikes.objects.create(idUser_id=user_id, idEvent_id=evento_id, like=1)
+            liked = True
+
+        likes_count = EventLikes.objects.filter(idEvent=evento_id).count()
+
+        return JsonResponse({'liked': liked, 'likes_count': likes_count})
