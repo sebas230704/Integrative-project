@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'djangoproject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'eventix_api',
+        'NAME': 'eventix_db',
         'USER': 'root',
         'PASSWORD': 'root',
         'HOST': 'localhost',  # Puede variar según la configuración de tu servidor MySQL
