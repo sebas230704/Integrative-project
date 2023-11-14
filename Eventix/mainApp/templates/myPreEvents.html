@@ -4,29 +4,33 @@
 <h1 class="text-center display-6">Tus preEventos</h1>
 <div class="row row-cols-1 row-cols-md-3 g-4">
     {% for event, organizers in events_with_organizers.items %}
-        {% if event.isPreEvento == 1 %}
-            <div class="card" style="width: 300px; height: 400px;">
-                <!-- Revisar esta parte para la generación de imágenes, es event.image.url -->
-                <img class="card-img-top" src="{{ event.image.url }}" />
-                <div class="card-body">
-                    <h5 class="card-title fwb-bold text-center">{{ event.name }}</h5>
-                </div>
-                <p class="card-text">{{ event.date }}</p>
-                <p class="card-text">{{ event.city }}</p>
-                <p class="card-text">{{ event.place }}</p>
-                <div class="card-body">
-                    <h5 class="card-title fwb-bold text-center">Organizadores</h5>
-                </div>
-                <ul>
-                    {% for organizer in organizers %}
-                        <li>{{ organizer.companyName }}</li>
-                    {% endfor %}
-                </ul>
-                <form class="d-flex align-items-center justify-content-center" action="{% url 'eventDetail' event.idEvent %}">
-                    <button class="text-center" type="submit" style="margin-bottom: 10px;">Read More</button>
-                </form>
+    {% if event.isPreEvento == 1 %}
+    <div class="card" style="width: 300px; height: 400px;">
+        <!-- Revisar esta parte para la generación de imágenes, es event.image.url -->
+        <img class="card-img-top" src="{{ event.image.url }}" />
+        <div class="card-body">
+            <h5 class="card-title fwb-bold text-center">{{ event.name }}</h5>
         </div>
-        {% endif %}
+        <p class="card-text">{{ event.date }}</p>
+        <p class="card-text">{{ event.city }}</p>
+        <p class="card-text">{{ event.place }}</p>
+        <div class="card-body">
+            <h5 class="card-title fwb-bold text-center">Organizadores</h5>
+        </div>
+        <ul>
+            {% for organizer in organizers %}
+            <a href="{% url 'principalProfile' organizer.idUser.id  %}">
+                <li>{{ organizer.companyName }}</li>
+            </a>
+            {% endfor %}
+        </ul>
+
+        <br>
+        <form class="d-flex align-items-center justify-content-center" action="{% url 'eventDetail' event.idEvent %}">
+            <button class="text-center" type="submit" style="margin-bottom: 10px;">Read More</button>
+        </form>
+    </div>
+    {% endif %}
     {% endfor %}
 </div>
 

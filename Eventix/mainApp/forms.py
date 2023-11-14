@@ -23,6 +23,13 @@ class CreateNewEvent(forms.Form):
         required=False
     )
 
+    image = forms.ImageField(required=True)
+
+    class Meta:
+        model = Event
+        fields = ['name', 'description', 'date', 'city', 'place', 'categories', 'image']
+
+
 class CreateOrganizer(forms.Form):
     companyName = forms.CharField(label="Company Name", max_length=99, required=True)
     description = forms.CharField(label="Description", max_length=808, required=True)

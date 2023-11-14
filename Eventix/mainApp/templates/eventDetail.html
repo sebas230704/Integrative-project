@@ -1,3 +1,6 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,26 +8,98 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/EventDetail.css' %}">
 </head>
 
 <body>
-    {%extends 'base.html'%}
-    {% block content %}
-    <h2>About the creator</h2>
-    <a href="{% url 'principalProfile' userByEvent.id %}">
-        <h4>{{ userByEvent.username }}</h4>
-    </a>
-    <!-- Agregar campos como nombre -->
 
+    <div class="cont-creador">
+        <h2>Creator info: </h2>
+        <a href="{% url 'principalProfile' userByEvent.id %}" class="creador">
+        <h2>{{ userByEvent.username }}</h2>
+        </a>
+    </div>
 
-        <h1>Evento: </h1>
+    <div class="foto-fecha">
+        <img src="{{ event.image.url }}" class="foto">
+        <p class="date">Fecha: {{ event.date }}</p>
+    </div>
+    
+
+    <div class="cont-evento">
         <h1>{{ event.name }}</h1>
-        <img src="{{ event.image.url }}" />
-        <p>{{ event.descripcion }}</p>
-        <p>Fecha: {{ event.date }}</p>
-        <p>Ciudad: {{ event.city }}</p>
-        <p>Lugar: {{ event.place }}</p>
-        <p>Creado por: {{ event.idUser.username }}</p>
+    </div>
+    
+    
+
+    <!-- Agregar campos como nombre -->
+    
+        <div class="descripcion">
+            <h1>Descripción:</h1>
+            <p>{{ event.descripcion }}</p>
+        </div>
+
+    <div class="localizacion">
+        <div class="localizacion-interior">
+            <p>Ciudad: {{ event.city }}</p>
+            <p>Lugar: {{ event.place }}</p>
+        </div>
+    </div>
+    
+    <p class="pie-de-evento">Creado por: {{ event.idUser.username }}</p>
+
+        {% if like_exists %}
+        <button onclick="toggleHeart()" class="heart" data-evento-id="{{ event.idEvent }}">
+            <svg height="100" width="100" id="heart">
+                <path d="M 10,30
+                        A 20,20 0,0,1 50,30
+                        A 20,20 0,0,1 90,30
+                        Q 90,60 50,90
+                        Q 10,60 10,30" fill="red" />
+            </svg>
+        </button>
+        {% else %}
+        <button onclick="toggleHeart()" class="heart" data-evento-id="{{ event.idEvent }}">
+            <svg height="100" width="100" id="heart">
+                <path d="M 10,30
+                        A 20,20 0,0,1 50,30
+                        A 20,20 0,0,1 90,30
+                        Q 90,60 50,90
+                        Q 10,60 10,30" fill="pink" />
+            </svg>
+        </button>
+        {% endif %}
+
+
+    <script>
+        document.querySelectorAll('.heart').forEach(button => {
+            button.addEventListener('click', function () {
+                const eventoId = this.getAttribute('data-evento-id');
+                fetch(`/toggle_like/${eventoId}`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}',
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                })
+                    .then(response => response.json())
+                    .then(data => {
+
+                        if (data.liked) {
+                            heart.innerHTML = '<path d="M 10,30 A 20,20 0,0,1 50,30 A 20,20 0,0,1 90,30 Q 90,60 50,90 Q 10,60 10,30" fill="red" />'; // Corazón lleno
+                        } else {
+                            heart.innerHTML = '<path d="M 10,30 A 20,20 0,0,1 50,30 A 20,20 0,0,1 90,30 Q 90,60 50,90 Q 10,60 10,30" fill="pink" />'; // Corazón vacío
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            });
+        });
+
+
+    </script>
     {% endblock %}
 
 </body>
