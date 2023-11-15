@@ -8,97 +8,91 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="{% static 'css/EventDetail.css' %}">
+    <link rel="stylesheet" href="{% static 'css/eventDetail.css' %}">
 </head>
 
 <body>
 
-    <div class="cont-creador">
-        <h2>Creator info: </h2>
-        <a href="{% url 'principalProfile' userByEvent.id %}" class="creador">
-        <h2>{{ userByEvent.username }}</h2>
-        </a>
-    </div>
 
-    <div class="foto-fecha">
-        <img src="{{ event.image.url }}" class="foto">
+    <div class="event-details">
+        <div class="image-container">
+            <img src="{{ event.image.url }}" alt="Descripción de la imagen">
+        </div>
         <p class="date">Fecha: {{ event.date }}</p>
-    </div>
-    
 
-    <div class="cont-evento">
-        <h1>{{ event.name }}</h1>
-    </div>
-    
-    
-
-    <!-- Agregar campos como nombre -->
-    
-        <div class="descripcion">
-            <h1>Descripción:</h1>
-            <p>{{ event.descripcion }}</p>
+        <div class="content">
+            <div class="text-content">
+                <p class="name">{{ event.name }}</p>
+            </div>
+            <div class="heart-container">
+                {% if like_exists %}
+                <button onclick="toggleHeart(this)" class="heart liked" data-evento-id="{{ event.idEvent }}">
+                    <img src="../static/like.png" alt="Descripción de la imagen" style="width: 35px; height: 35px;">
+                </button>
+                {% else %}
+                <button onclick="toggleHeart(this)" class="heart" data-evento-id="{{ event.idEvent }}">
+                    <img src="../static/unlike.png" alt="Descripción de la imagen" style="width: 35px; height: 35px;">
+                </button>
+                {% endif %}
+            </div>
+            <h4>23</h4>
         </div>
 
-    <div class="localizacion">
-        <div class="localizacion-interior">
+        <div class="description-creator">
+            <div class="description">
+                <p class="titleDescription">Description</p>
+                <p>{{ event.descripcion }}</p>
+            </div>
+            <div class="creator-container">
+                <div class="creator">
+                    <p class="titleCreator">About the creator</p>
+                    <div class="profile-container">
+                        <img class="profileImage" src="{{ principal_profile.profilePhoto.url }}" alt="">
+                    </div>
+                    <a href="{% url 'principalProfile' userByEvent.id %}">
+                        <p>{{ userByEvent.username }}</p>
+                    </a>
+
+                </div>
+            </div>
+
+        </div>
+
+        <p class="titleLocation">Location</p>
+        <div class="locationContainer">
             <p>Ciudad: {{ event.city }}</p>
             <p>Lugar: {{ event.place }}</p>
         </div>
     </div>
-    
-    <p class="pie-de-evento">Creado por: {{ event.idUser.username }}</p>
-
-        {% if like_exists %}
-        <button onclick="toggleHeart()" class="heart" data-evento-id="{{ event.idEvent }}">
-            <svg height="100" width="100" id="heart">
-                <path d="M 10,30
-                        A 20,20 0,0,1 50,30
-                        A 20,20 0,0,1 90,30
-                        Q 90,60 50,90
-                        Q 10,60 10,30" fill="red" />
-            </svg>
-        </button>
-        {% else %}
-        <button onclick="toggleHeart()" class="heart" data-evento-id="{{ event.idEvent }}">
-            <svg height="100" width="100" id="heart">
-                <path d="M 10,30
-                        A 20,20 0,0,1 50,30
-                        A 20,20 0,0,1 90,30
-                        Q 90,60 50,90
-                        Q 10,60 10,30" fill="pink" />
-            </svg>
-        </button>
-        {% endif %}
 
 
     <script>
-        document.querySelectorAll('.heart').forEach(button => {
-            button.addEventListener('click', function () {
-                const eventoId = this.getAttribute('data-evento-id');
-                fetch(`/toggle_like/${eventoId}`, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRFToken': '{{ csrf_token }}',
-                        'Content-Type': 'application/json',
-                        'X-Requested-With': 'XMLHttpRequest'
-                    },
+        function toggleHeart(button) {
+            const eventoId = button.getAttribute('data-evento-id');
+            const heartImg = button.querySelector('img');
+
+            fetch(`/toggle_like/${eventoId}`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.liked) {
+                        heartImg.src = "../static/like.png";
+                        button.classList.add('liked');
+                    } else {
+                        heartImg.src = "../static/unlike.png";
+                        button.classList.remove('liked');
+                    }
                 })
-                    .then(response => response.json())
-                    .then(data => {
-
-                        if (data.liked) {
-                            heart.innerHTML = '<path d="M 10,30 A 20,20 0,0,1 50,30 A 20,20 0,0,1 90,30 Q 90,60 50,90 Q 10,60 10,30" fill="red" />'; // Corazón lleno
-                        } else {
-                            heart.innerHTML = '<path d="M 10,30 A 20,20 0,0,1 50,30 A 20,20 0,0,1 90,30 Q 90,60 50,90 Q 10,60 10,30" fill="pink" />'; // Corazón vacío
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                    });
-            });
-        });
-
-
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
     </script>
     {% endblock %}
 

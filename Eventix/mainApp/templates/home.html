@@ -4,53 +4,96 @@
 {% block content %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tus Eventos</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
     <link rel="stylesheet" href="boxicons.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
 </head>
+
 <body>
 
-    <div class="line-filters">
-        <div class="navbar-filters">
-            {% for eventCategory in eventCategories %}
-                <div class="navbar-cards">
-                    <a href="{% url 'eventByCategory' eventCategory.idEventCategorie %}">
-                        <h5>{{ eventCategory.name }}</h5>
-                    </a>
+    <div class="titulo_categorias">
+        <h3>Busca por categorias</h3>
+    </div>
+
+    <div class="categories-container">
+        {% for eventCategory in eventCategories %}
+        <a href="{% url 'eventByCategory' eventCategory.idEventCategorie %}" class="category-item">
+            <p class="fontCategory">{{ eventCategory.name }}</p>
+        </a>
+        {% endfor %}
+    </div>
+
+
+    <div class="titulo_categorias">
+        <br>
+        <h3>Eventos de tu interes</h3>
+    </div>
+
+
+    <div class="events-container">
+        {% for event in events %}
+        {% if event.isPreEvento == 0 %}
+        <div class="event">
+            <a href="{% url 'eventDetail' event.idEvent %}">
+                <img src="{{ event.image.url }}" alt="{{ event.name }}">
+                <div class="event-details">
+                    <p class="name">{{ event.name }}</p>
+                    <p class="date">{{ event.date }}</p>
+                    <p class="city">{{ event.city }}</p>
+                    <p class="place">{{ event.place }}</p>
                 </div>
-            {% endfor %}
+            </a>
+    
+            {% if event.like == 1 %}
+                <button onclick="toggleHeart(this)" class="heart liked" data-evento-id="{{ event.idEvent }}">
+                    <img src="../static/like.png" alt="Descripción de la imagen" style="width: 35px; height: 35px;">
+                </button>
+            {% else %}
+                <button onclick="toggleHeart(this)" class="heart" data-evento-id="{{ event.idEvent }}">
+                    <img src="../static/unlike.png" alt="Descripción de la imagen" style="width: 35px; height: 35px;">
+                </button>
+            {% endif %}
         </div>
-        <div class="arrow">
-
-        </div>
+        {% endif %}
+        {% endfor %}
     </div>
-
-    <div class="container">
-        <div class="events-container">
-            {% for event in events %}
-                {% if event.isPreEvento == 0 %}
-                    <a href="{% url 'eventDetail' event.idEvent %}">
-                        <div class="event-card">
-                            <div class="card-image">
-                                <img src="{{ event.image.url }}" alt="{{ event.name }}">
-                            </div>
-                            <div class="card-body">
-                                <h2>{{ event.name }}</h2>
-                                <p class="date">{{ event.date }}</p>
-                                <p class="city">{{ event.city }}</p>
-                                <p class="place">{{ event.place }}</p>
-                            </div>
-                        </div>
-                    </a>
-                {% endif %}
-            {% endfor %}
-        </div>
-    </div>
+    
+    <script>
+        function toggleHeart(button) {
+            const eventoId = button.getAttribute('data-evento-id');
+            const heartImg = button.querySelector('img');
+    
+            fetch(`/toggle_like/${eventoId}`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.liked) {
+                    heartImg.src = "../static/like.png";
+                    button.classList.add('liked');
+                } else {
+                    heartImg.src = "../static/unlike.png";
+                    button.classList.remove('liked');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+    
 
 </body>
+
 </html>
 {% endblock %}

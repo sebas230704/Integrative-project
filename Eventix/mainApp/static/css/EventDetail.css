@@ -1,80 +1,128 @@
-h2{
-    max-width: max-content;
+.event-details {
+    width: 90%;
+    margin: 0 auto;
+    box-sizing: border-box;
 }
 
-.creador{
-    max-width: max-content;
+.image-container {
+    text-align: center;
+    overflow: hidden;
+    margin-top: 20px;
+    /* Ajusta el espacio entre la imagen y el texto */
 }
 
-.cont-creador{
-    display: flex;
-    margin-left: 200px;
-    margin-right: 400px;
-    margin-bottom: 10px;
-    width: 100%;
-}
-
-.cont-evento{
-    display: flex;
-    font-size: 40px;
-    margin-left: 200px;
-    margin-right: 800px;
-}
-
-.foto{
+.image-container img {
     width: 100%;
     height: 500px;
-    border-radius: 10px;
+    object-fit: cover;
 }
 
-p{
-    font-size: 25px;
-}
-
-.date{
-    font-size: 20px;
-    color: blueviolet;
-}
-
-.descripcion{
-    margin-right: 200px;
-    margin-left: 200px;
-    margin-bottom: 50px;
-}
-
-.foto-fecha{
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    text-align: right;
-    margin-left: 200px;
-    margin-right: 200px;
-}
-
-.localizacion{
-    width:max-content;
-    background-color: lightgray;
-    border: solid 1px black;
-    border-radius: 3px;
-    margin-left: 200px;
-    margin-right: 200px;
-    margin-bottom: 50px;
-}
-
-.localizacion-interior{
+.date {
+    color: #7e7a7a;
+    color: rgb(178, 0, 178);
+    font-family: Segoe UI;
+    font-weight: 500;
     padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    font-size: 17px;
 }
 
-.pie-de-evento{
-    margin-left: 200px;
-    margin-right: 200px;
+.name {
+    color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    padding-bottom: 25px;
 }
 
-.heart{
-    border-radius: 10px;
-    border: solid 1px rgb(141, 141, 141);
-    width: 100px;
-    height:100px;
-    margin-left: 200px;
+.content {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    /* Agregamos una columna adicional para el h4 */
+    gap: 20px;
+    align-items: center;
+    margin-top: 20px;
 }
+
+.heart-container {
+    justify-self: end;
+    /* Coloca el contenedor del corazón al final de la fila */
+}
+
+.heart {
+    border: none;
+    outline: none;
+    background: transparent;
+}
+
+.description-creator {
+    display: grid;
+    grid-template-columns: 2fr 1.5fr;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.description {
+    grid-column: 1 / span 1;
+    padding-right: 80px;
+}
+
+.creator-container {
+    grid-column: 2 / span 1;
+    align-self: flex-start;
+}
+
+.creator {
+    border: 1px solid #b5b5b5;
+    border-radius: 15px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column; /* Alinea los elementos verticalmente */
+    align-items: center; /* Centra los elementos horizontalmente */
+    text-align: center; /* Alinea el texto al centro */
+}
+
+.creator p {
+    margin: 0;
+}
+
+.titleDescription{
+    color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    padding-bottom: 20px;
+}
+
+.titleCreator{
+    color: black;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center; /* Alineación horizontal al centro */
+    padding-bottom: 20px;
+}
+
+.profileImage {
+    width: 110px; /* Establece el ancho de la imagen */
+    height: 110px; /* Establece la altura de la imagen */
+    border-radius: 50%; /* Esto convierte la imagen en un círculo */
+    object-fit: cover; /* Ajusta la imagen para que ocupe el área designada */
+    margin-bottom: 10px; /* Espaciado inferior para separar la imagen del texto */
+}
+
+.titleLocation{
+    color: black;
+    font-size: 20px;
+    font-weight: 600;
+    padding-bottom: 20px;
+    padding-top: 40px;
+}
+
+.locationContainer {
+    background-color: #eaeaea; /* Fondo gris claro */
+    width: 500px; /* Ancho definido */
+    padding: 20px; /* Agrega un espacio interno al contenido */
+    border-radius: 10px; /* Agrega bordes redondeados */
+    margin: 5px 0 100px 30px;
+}
+
+

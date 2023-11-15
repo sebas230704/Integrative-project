@@ -7,16 +7,21 @@ from django.db import IntegrityError
 from .forms import *
 from .models import *
 from datetime import datetime
-from django.conf import settings
-from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 
 # Create your views here.
 
-
 def home(request):
-    eventCategories = EventCategories.objects.all
+    eventCategories = EventCategories.objects.all()
     events = Event.objects.all()
+
+    for event in events:
+        event_like = EventLikes.objects.filter(idUser=request.user, idEvent=event.idEvent)
+        
+        if event_like.exists():
+            event.like = event_like.first().like 
+        else:
+            event.like = 0
 
     return render(request, 'home.html', {
         'eventCategories': eventCategories, 
@@ -274,21 +279,28 @@ def events(request, categoria_id):
     return render(request, 'events.html', {'events': events})        
 
 
-
 def eventDetail(request, idEvent):
-    event = get_object_or_404(Event, idEvent=idEvent)
-    userByEvent = event.idUser
+    print("llega idEvent: ", idEvent)
 
+    event = get_object_or_404(Event, idEvent=idEvent)
+    
+    # Obtener el perfil principal asociado al evento
+    principal_profile = get_object_or_404(PrincipalProfile, idUser=event.idUser)
+
+    # Acceder al campo idUser del perfil principal
+    userByEvent = principal_profile.idUser
+
+    print(request.user)
     # Verificar si existe un registro en EventLikes con idUser y idEvent específicos
     try:
-        like_instance = EventLikes.objects.get(idUser=userByEvent, idEvent=event)
         # El registro existe
         exists = True
     except EventLikes.DoesNotExist:
         # El registro no existe
         exists = False
 
-    return render(request, 'eventDetail.html', {'event': event, 'userByEvent': userByEvent, 'like_exists': exists})
+    return render(request, 'eventDetail.html', {'event': event, 'userByEvent': userByEvent, 'like_exists': exists, 'principal_profile': principal_profile})
+
 
 
 
@@ -404,7 +416,7 @@ from django.http import JsonResponse
 
 def toggle_like(request, evento_id):
     if request.method == 'POST':
-        user_id = 1  # Obtén el ID del usuario de alguna manera (deberías usar el ID del usuario actual)
+        user_id = request.user.id  # Obtén el ID del usuario de alguna manera (deberías usar el ID del usuario actual)
 
         evento = get_object_or_404(Event, pk=evento_id)
         user_liked = EventLikes.objects.filter(idEvent=evento_id, idUser=user_id).first()
