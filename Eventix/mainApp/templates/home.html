@@ -48,21 +48,24 @@
                     <p class="place">{{ event.place }}</p>
                 </div>
             </a>
+            
     
-            {% if event.like == 1 %}
-                <button onclick="toggleHeart(this)" class="heart liked" data-evento-id="{{ event.idEvent }}">
-                    <img src="../static/like.png" alt="Descripción de la imagen" style="width: 35px; height: 35px;">
-                </button>
-            {% else %}
-                <button onclick="toggleHeart(this)" class="heart" data-evento-id="{{ event.idEvent }}">
-                    <img src="../static/unlike.png" alt="Descripción de la imagen" style="width: 35px; height: 35px;">
-                </button>
-            {% endif %}
+           {% if userLogger %}
+                {% if event.like == 1 %}
+                    <button onclick="toggleHeart(this)" class="heart liked" data-evento-id="{{ event.idEvent }}">
+                        <img src="../static/like.png" alt="Descripción de la imagen" style="width: 35px; height: 35px;">
+                    </button>
+                {% else %}
+                    <button onclick="toggleHeart(this)" class="heart" data-evento-id="{{ event.idEvent }}">
+                        <img src="../static/unlike.png" alt="Descripción de la imagen" style="width: 35px; height: 35px;">
+                    </button>
+                {% endif %}
+           {% endif %}
         </div>
         {% endif %}
         {% endfor %}
     </div>
-    
+<!--     
     <script>
         function toggleHeart(button) {
             const eventoId = button.getAttribute('data-evento-id');
@@ -90,7 +93,7 @@
                 console.error('Error:', error);
             });
         }
-    </script>
+    </script> -->
     
 
 </body>

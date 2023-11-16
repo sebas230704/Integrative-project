@@ -14,18 +14,22 @@ from django.core.files.base import ContentFile
 def home(request):
     eventCategories = EventCategories.objects.all()
     events = Event.objects.all()
+    userLogger = request.user.is_authenticated
 
-    for event in events:
-        event_like = EventLikes.objects.filter(idUser=request.user, idEvent=event.idEvent)
+
+    if request.user.is_authenticated:
+        for event in events:
+            event_like = EventLikes.objects.filter(idUser=request.user, idEvent=event.idEvent)
         
-        if event_like.exists():
-            event.like = event_like.first().like 
-        else:
-            event.like = 0
+            if event_like.exists():
+                event.like = event_like.first().like 
+            else:
+                event.like = 0
 
     return render(request, 'home.html', {
         'eventCategories': eventCategories, 
-        'events': events
+        'events': events,
+        'userLogger': userLogger
     })
 
 
