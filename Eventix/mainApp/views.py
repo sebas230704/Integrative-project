@@ -33,6 +33,7 @@ def home(request):
     })
 
 
+
 def signup(request):
     if request.method == 'GET':
         return render(request, 'signup.html', {
@@ -41,11 +42,16 @@ def signup(request):
     else:
         if request.POST['password1'] == request.POST['password2']:
             try:
-                user = User.objects.create_user(username=request.POST['username'],
-                                                password=request.POST['password1'])
-                user.save()
+                # Crear el usuario
+                user = User.objects.create_user(username=request.POST['username'], password=request.POST['password1'])
+                
+                # Guardar el perfil asociado al usuario
+                principal_profile = PrincipalProfile.objects.create(idUser=user)
+                
+                # Iniciar sesión
                 login(request, user)
-                return redirect('home') #cambiar home a la pagina que tiene el base diferente
+                
+                return redirect('home')
             except IntegrityError:
                 return render(request, 'signup.html', {
                     'form': UserCreationForm,
@@ -55,7 +61,7 @@ def signup(request):
             'form': UserCreationForm,
             "error": 'Password do not match'
         })
-    
+
 
 
 def createEvent(request):
@@ -292,7 +298,7 @@ def eventDetail(request, idEvent):
     principal_profile = get_object_or_404(PrincipalProfile, idUser=event.idUser)
 
     # Acceder al campo idUser del perfil principal
-    userByEvent = principal_profile.idUser
+    userByEvent = event.idUser
 
     print(request.user)
     # Verificar si existe un registro en EventLikes con idUser y idEvent específicos
@@ -302,6 +308,9 @@ def eventDetail(request, idEvent):
     except EventLikes.DoesNotExist:
         # El registro no existe
         exists = False
+    
+    #return render(request, 'eventDetail.html', {'event': event, 'userByEvent': userByEvent, 'like_exists': exists})
+
 
     return render(request, 'eventDetail.html', {'event': event, 'userByEvent': userByEvent, 'like_exists': exists, 'principal_profile': principal_profile})
 
