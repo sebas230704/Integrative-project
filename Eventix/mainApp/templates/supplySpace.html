@@ -1,50 +1,57 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <div class="vh-100 d-flex justify-content-center align-items-center" style="margin-bottom: 10%;">
-        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-        <main  class="container">
+
+
+    <div class="container">
+        <link rel="stylesheet" href="{% static 'css/supplySpace.css' %}">
+        <main class="container-body">
             <div class="row">
                 <section class="col-md-4 offset-md-4">
-                    <form action="/supply/space/" method="POST" class="card card-body" enctype="multipart/form-data">
+                    <form action="/supply/space/" method="POST" class="form" enctype="multipart/form-data">
                     
                     <h1 class="text-center"> Eventix </h1>
-                    <h2 class="text-center"> Create an event</h2>
+                    <p></p>
+                    <h2 class="text-center">Supply your Space</h2>
     
                     {% csrf_token %}
-                        <div class="mb-3">
-                            <label for="title">Name:</label>
-                                <input type="text" name="title" id="title" class="form-control"
-                                placeholder="Name of your space">
+                    <div class="form__container">
+                        <div class="field">
+                            <input type="text" name="title" id="title" class="form-input" placeholder=" ">
+                            <label for="title" class="form-label">Name:</label>
+                            <span class="form-line"></span>
                         </div>
-                        <div class="mb-3">
-                            <label for="capacity">Max capacity:</label>
-                                <input type="number" name="capacity" id="capacity" class="form-control"
-                                placeholder="Maximum number of guests" min="0">
+                        <div class="field">
+                            <input type="number" name="capacity" id="capacity" class="form-input" placeholder=" " min="0">
+                            <label for="capacity" class="form-label">Max capacity:</label>
+                            <span class="form-line"></span>
                         </div>
-                        <div class="mb-3">
-                            <label for="address">Address:</label>
-                                <input type="address" name="address" id="address" class="form-control"
-                                placeholder="Address where your space is located">
+                        <div class="field">
+                            <input type="address" name="address" id="address" class="form-input" placeholder=" ">
+                            <label for="address" class="form-label">Address:</label>
+                            <span class="form-line"></span>
                         </div>
-                        <div class="mb-3">
-                            <label for="location">Location:</label>
-                                <input type="location" name="location" id="location" class="form-control"
-                                placeholder="Location of your space">
+                        <div class="field">
+                            <input type="location" name="location" id="location" class="form-input" placeholder=" ">
+                            <label for="location" class="form-label">Location:</label>
+                            <span class="form-line"></span>
                         </div>
-                        <div class="mb-3">
-                            <label for="description">Description:</label>
-                                <textarea rows="5" name="description" id="description" class="form-control"
-                                placeholder="Brief description of your space and its purpose"></textarea>
+                        <div class="field">
+                            <textarea rows="5" name="description" id="description" class="form-input" placeholder=" "></textarea>
+                            <label for="description" class="form-label">Description:</label>
+                            <span class="form-line"></span>
                         </div>
-                        <div class="mb-3">
-                            <label for="image">Image:</label>
-                            <input type="file" name="image" id="image" class="btn btn-upload"
-                            placeholder="Upload an image for your event">
+                        <div class="field">
+                            <input type="file" name="image" id="image" class="form-input" placeholder=" ">
+                            <label for="image" class="form-label">Image:</label>
+                            <span class="form-line"></span>
                         </div>
-                        <button class="btn btn-primary btn-block">
+
+                        <button class="form-submit">
                             Create
                         </button>
+                    </div>
+                        
                     </form>
                 </section>
             </div>

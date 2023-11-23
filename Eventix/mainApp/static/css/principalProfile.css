@@ -1,0 +1,189 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300&family=Open+Sans&family=Quicksand:wght@300;500;700&family=Roboto:wght@300;400;700&family=Ysabeau+Office:wght@400;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Lato', sans-serif;
+    font-family: 'Open Sans', sans-serif;
+    font-family: 'Quicksand', sans-serif;
+    font-family: 'Roboto', sans-serif;
+    font-family: 'Ysabeau Office', sans-serif;
+    background-color: rgb(248, 247, 247);
+    margin: 0;
+
+}
+h2 {
+    text-align: center;
+    font-size: 30px;
+    margin-top: 40px;
+    margin-bottom: 0;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.user-profile {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: stretch;
+    margin: auto;
+    margin-top: 50px;
+    width: 100%;
+    max-width: 1300px;
+    padding: 4.5em 3em;
+    border: 0;
+    padding: 0;
+    margin-left: 300px;
+    margin-right: 300px;
+
+}
+
+.big-image img {
+    width: 100%;
+    max-height: 500px;
+}
+
+.small-image{
+    margin-top: -50px;
+}
+
+.small-image img {
+    display:flex;
+    width: 200px;
+    height: 200px;
+    align-items: center;
+    justify-content: center;
+    border: 7px solid #fff;
+    background-color: #DFE5F2;
+    border-radius: 50%;
+    box-shadow: 0 0 12px rgba(0, 0, 0, .2);
+    left: calc(50% - 90px);
+}
+
+.edit-profile {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: flex-end;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-top: -90px;
+}
+
+.username {
+    margin-top: -100px;
+    margin-bottom: 80px;
+    margin-left: 10px;
+    margin-right: 700px;
+}
+
+.username p {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.description {
+    display: flex;
+    margin-top: 70px;
+}
+
+.description p {
+    font-size: 16px; /* Tamaño del texto */
+    color: #000000; /* Color del texto */
+    line-height: 3.5; /* Altura de línea */
+    font-weight: bold; /* Peso de la fuente */
+    font-family: 'Quicksand', sans-serif;
+    /* Otros estilos que desees aplicar */
+}
+
+.division {
+    height: 80px;
+    border-bottom: solid 1px #d3c6c6;
+}
+
+.califications {
+    display: flex;
+    flex-direction: row;
+    margin-top: 30px;
+    margin-bottom: 40px;
+    align-items: center;
+    justify-content: center;
+}
+
+.star {
+    font-size: 24px;
+    margin-left: 15px;
+}
+
+.califications p{
+    font-size: 30px;
+}
+
+.total-event{
+    height: 100%
+}
+
+.event-container {
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+    margin-top: 30px;
+    margin-left: 50px;
+    margin-right: 30px;
+}
+
+.card {
+    margin-right: 60px;
+    margin-bottom: 15px;
+    margin-top: 15px;
+
+}
+
+.card img {
+    width: 200px;
+    height: 200px;
+    border-radius: 8px;
+}
+
+
+.event-details {
+    display:flex;
+    flex-direction: column;
+}
+
+.total-event h3 {
+    text-align: center;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.form-label {
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    height: 100%;
+    margin-top: 10px;
+}
+
+.form-label button {
+    color: #ffffff;
+    padding: 4px 22px;
+    border: none;
+    border-radius: 8px;
+    background: #7d2ae8;
+    transition: all 0.2s ease;
+}
+
+.form-label button:active {
+    transform: scale(0.96);
+}
+
+.form-label button:hover{
+    background-color: #45a049;
+}
+
+
+

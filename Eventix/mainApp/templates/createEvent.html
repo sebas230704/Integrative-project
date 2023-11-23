@@ -2,55 +2,59 @@
 {% load static %}
 {% block content %}
 
-<div class="vh-100 d-flex justify-content-center align-items-center" style="margin-bottom: 10%;">
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <main  class="container">
+<div class="container">
+    <link rel="stylesheet" href="{% static 'css/createEvent.css' %}">
+    <main class="container-body">
         <div class="row">
             <section class="col-md-4 offset-md-4">
-                <form action="/createEvent/" method="POST" class="card card-body" enctype="multipart/form-data">
-                
-                <h1 class="text-center"> Eventix </h1>
-                <h2 class="text-center"> Create an event</h2>
+                <form action="/createEvent/" method="POST" class="form" enctype="multipart/form-data">
 
-                {% csrf_token %}
-                    <div class="mb-3">
-                        <label for="name">Name:</label>
-                            <input type="text" name="name" id="name" class="form-control"
-                            placeholder="Name for your event">
-                    </div>
-                    <div class="mb-3">
-                        <label for="date">Date:</label>
-                            <input type="date" name="date" id="date" class="form-control"
-                            placeholder="Date of your event">
-                    </div>
-                    <div class="mb-3">
-                        <label for="city">City:</label>
-                            <input type="city" name="city" id="city" class="form-control"
-                            placeholder="City where your event is taking place">
-                    </div>
-                    <div class="mb-3">
-                        <label for="place">Place:</label>
-                            <input type="place" name="place" id="place" class="form-control"
-                            placeholder="Address / place where your event is">
-                    </div>
-                    <div class="mb-3">
-                        <label for="description">Description:</label>
-                            <textarea rows="5" name="description" id="description" class="form-control"
-                            placeholder="Brief description of your event"></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="image">Image:</label>
-                        <input type="file" name="image" id="image" class="form-control"
-                        placeholder="Upload an image for your event">
-                    </div>
-                    <div class="mb-3">
-                        <label for="{{ form.categories.id_for_label }}">Categories:</label>
-                        {{ form.categories }}
+                    <h1 class="title"> Eventix </h1>
+                    <p></p>
+                    <h2 class="title2"> Create an event</h2>
+
+                    {% csrf_token %}
+                    <div class="form__container">
+                        <div class="field">
+                            <input type="text" name="name" id="name" class="form-input" placeholder=" ">
+                            <label for="name" class="form-label">Name:</label>
+                            <span class="form-line"></span>
+                        </div>
+                        <div class="field">
+                            <input type="date" name="date" id="date" class="form-input" placeholder=" ">
+                            <label for="date" class="form-label">Date:</label>
+                            <span class="form-line"></span>
+                        </div>
+                        <div class="field">
+                            <input type="city" name="city" id="city" class="form-input" placeholder=" ">
+                            <label for="city" class="form-label">City:</label>
+                            <span class="form-line"></span>
+                        </div>
+                        <div class="field">
+                            <input type="place" name="place" id="place" class="form-input" placeholder=" ">
+                            <label for="place" class="form-label">Place:</label>
+                            <span class="form-line"></span>
+                        </div>
+                        <div class="field">
+                            <textarea rows="5" name="description" id="description" class="form-input" placeholder=" "></textarea>
+                            <label for="description" class="form-label">Description:</label>
+                            <span class="form-line"></span>
+                        </div>
+                        <div class="field">
+                            <input type="file" name="image" id="image" class="form-input" placeholder=" ">
+                            <label for="image" class="form-label">Image:</label>
+                            <span class="form-line"></span>
+                        </div>
+                        <div class="field field-categories">
+                            <label for="{{ form.categories.id_for_label }}" class="form-label form-label-categories" name="categories">Categories:</label>
+                            {{ form.categories }}
+                        </div>
+
+                        <button class="form-submit">
+                            Create
+                        </button>
                     </div>
                     
-                    <button class="btn btn-primary btn-block">
-                        Create
-                    </button>
                 </form>
             </section>
         </div>
@@ -58,3 +62,4 @@
 </div>
 
 {% endblock %}
+

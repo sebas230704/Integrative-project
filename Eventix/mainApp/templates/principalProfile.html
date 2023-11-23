@@ -1,150 +1,156 @@
 <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <!-- Tus etiquetas head -->
-</head>
+{% extends 'base.html'%}
+{% load static %}
+{% block content %}
 
 <body>
-    {% extends 'base.html'%}
-    {% block content %}
-
+    <link rel="stylesheet" href="{% static 'css/principalProfile.css' %}">
 
     {% if esMiPerfil == 1 %}
         <h2>Tu Perfil</h2>
     {% elif esMiPerfil == 0%}
-        <h2>Otro perfil</h2>
+        <h2>Perfil</h2>
     {% endif %}
 
 
-
-    {% if principal_profile %}
-    <p>Description: {{ principal_profile.description }}</p>
-    <img src="{{ principal_profile.profilePhoto.url }}" alt="Profile Photo"
-        style="max-width: 350px; max-height: 350px;">
-    {% endif %}
-
-    {% if principal_profile.secondaryPhoto %}
-        <img src="{{ principal_profile.secondaryPhoto.url }}" alt="Profile Photo"
-        style="max-width: 450px; max-height: 450px;">
-    {% endif %}
-
-
-
-
-    {% if esMiPerfil == 1 %}
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <input type="file" name="profile_photo">
-        <input type="submit" value="Guardar imagen de perfil">
-    </form>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <input type="file" name="secondary_photo">
-        <input type="submit" value="Guardar imagen secundaria">
-    </form>
-    {% endif %}
-
-    <br><br>
-
-    {% if id_organizerIfExist != 0 %}
-        <h2>Es organizador: {{ id_organizerIfExist }}</h2>
-        
-        <!-- Tu contenido existente -->
-        <h1 id="currentRating" style="display: none;">{{ current_rating }}</h1>
-
-        <p>Calificación: <span id="rating">0</span>/5</p>
-        <div class="star" onclick="rate(1)" data-organizer-id="{{ id_organizerIfExist }}">&#9733;</div>
-        <div class="star" onclick="rate(2)" data-organizer-id="{{ id_organizerIfExist }}">&#9733;</div>
-        <div class="star" onclick="rate(3)" data-organizer-id="{{ id_organizerIfExist }}">&#9733;</div>
-        <div class="star" onclick="rate(4)" data-organizer-id="{{ id_organizerIfExist }}">&#9733;</div>
-        <div class="star" onclick="rate(5)" data-organizer-id="{{ id_organizerIfExist }}">&#9733;</div>
-    {% endif %}
-
-
-
-    <br><br>
-
-    {% if user_events %}
-        {% if esMiPerfil == 1 %}
-            <h3>Tus eventos</h3>
-        {% elif esMiPerfil == 0 %}
-            <h3></h3>
-        {% endif %}
-        {% for user_event in user_events %}
-            {% if user_event.isPreEvento == 0 %}
-                <div class="col">
-                    <div class="card" style="width: 300px; height:400px;">
-                        <img class="card-img-top" src="{{ event.image.url }}" />
-                        <div class="card-body">
-                            <h5 class="card-title fwb-bold text-center">{{ user_event.name }}</h5>
-                        </div>
-                        <p class="card-text">{{ user_event.date }}</p>
-                        <p class="card-text">{{ user_event.city }}</p>
-                        <p class="card-text">{{ user_event.place }}</p>
-                        <form class="d-flex align-items-center justify-content-center"
-                            action="{% url 'eventDetail' user_event.idEvent %}">
-                            <button class="text-center" type="submit" style="margin-bottom: 10px;">Read More</button>
-                        </form>
-                    </div>
-                </div>
+    <div class="user-profile">
+        <div class="big-image">
+            {% if principal_profile.secondaryPhoto %}
+                <img src="{{ principal_profile.secondaryPhoto.url }}" alt="Profile Photo">
             {% endif %}
-        {% endfor %}
-    {% else %}
+        </div>
+        <div class="small-image">
+            {% if principal_profile %}
+                <img src="{{ principal_profile.profilePhoto.url }}">
+            {% endif %}
+        </div>  
+        <div class="username">
+            <p>{{ user_profile_event|capfirst }}</p>
+        </div>
+        <div class="edit-profile">
         {% if esMiPerfil == 1 %}
-            <h3>No tienes eventos que mostrar</h3>
-        {% elif esMiPerfil == 0 %}
-            <h3>Este usuario no tiene evento para mostrar</h3>
+            <form class="profile-form" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="file" name="profile_photo">
+                <input type="submit" value="Save profile image">
+            </form>
+            <form class="profile-form" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="file" name="secondary_photo">
+                <input type="submit" value="save secondary image">
+            </form>
+            {% endif %}
+        </div>
+        <div class="description">
+            <p>Description: {{ principal_profile.description }}</p>
+        </div>  
+    </div>
+
+    <div class="division">
+    </div>
+
+    <div class="califications">
+        {% if id_organizerIfExist != 0 %}
+            
+            <h1 id="currentRating" style="display: none;">{{ current_rating }}</h1>
+
+            <p>Rate:   <span id="rating">0</span>/5</p>
+            <div class="star" onclick="rate(1)" data-organizer-id="{{ id_organizerIfExist }}">&#9733;</div>
+            <div class="star" onclick="rate(2)" data-organizer-id="{{ id_organizerIfExist }}">&#9733;</div>
+            <div class="star" onclick="rate(3)" data-organizer-id="{{ id_organizerIfExist }}">&#9733;</div>
+            <div class="star" onclick="rate(4)" data-organizer-id="{{ id_organizerIfExist }}">&#9733;</div>
+            <div class="star" onclick="rate(5)" data-organizer-id="{{ id_organizerIfExist }}">&#9733;</div>
         {% endif %}
-    {% endif %}
+    </div>
 
+    <div class="total-event">
+        {% if user_events %}
+            {% if esMiPerfil == 1 %}
+                <h3>Tus eventos</h3>
+            {% elif esMiPerfil == 0 %}
+                <h3></h3>
+            {% endif %}
 
+            <div class="event-container">
+                {% for user_event in user_events %}
+                {% if user_event.isPreEvento == 0 %}
+                    <div class="col">
+                        <div class="card">
+                            <img class="card-img-top" src="{{ user_event.image.url }}" />
+                            <div class="card-body">
+                                <h5 class="card-title fwb-bold text-center">{{ user_event.name }}</h5>
+                            </div>
+                            <p class="card-text">{{ user_event.date }}</p>
+                            <p class="card-text">{{ user_event.city }}</p>
+                            <p class="card-text">{{ user_event.place }}</p>
+                            <form class="form-label"
+                                action="{% url 'eventDetail' user_event.idEvent %}">
+                                <button class="text-center" type="submit">Read More</button>
+                            </form>
+                        </div>
+                    </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+            
+        {% else %}
+            {% if esMiPerfil == 1 %}
+                <h3>No tienes eventos que mostrar</h3>
+            {% elif esMiPerfil == 0 %}
+                <h3>Este usuario no tiene evento para mostrar</h3>
+            {% endif %}
+        {% endif %}
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        let currentRating = 0;
+        
 
-        function rate(rating) {
-            currentRating = (currentRating === rating) ? 0 : rating;
-            updateStars();
-            document.getElementById('rating').textContent = (currentRating !== 0) ? currentRating : '0';
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            let currentRating = 0;
 
-            const id_organizer = document.querySelector('.star[data-organizer-id]').getAttribute('data-organizer-id');
+            function rate(rating) {
+                currentRating = (currentRating === rating) ? 0 : rating;
+                updateStars();
+                document.getElementById('rating').textContent = (currentRating !== 0) ? currentRating : '0';
 
-            $.ajax({
-                type: 'POST',
-                url: '/rate_organizer/' + id_organizer + '/',
-                data: {
-                    'rating': currentRating,
-                    'csrfmiddlewaretoken': '{{ csrf_token }}'
-                },
-                success: function (response) {
-                    console.log(response.message);
-                },
-                error: function (error) {
-                    console.log('Error en la solicitud');
-                }
+                const id_organizer = document.querySelector('.star[data-organizer-id]').getAttribute('data-organizer-id');
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/rate_organizer/' + id_organizer + '/',
+                    data: {
+                        'rating': currentRating,
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    },
+                    success: function (response) {
+                        console.log(response.message);
+                    },
+                    error: function (error) {
+                        console.log('Error en la solicitud');
+                    }
+                });
+            }
+
+            function updateStars() {
+                const stars = document.querySelectorAll('.star');
+                stars.forEach((star, index) => {
+                    if (index < currentRating) {
+                        star.style.color = 'yellow';
+                    } else {
+                        star.style.color = '#777';
+                    }
+                });
+            }
+
+            document.addEventListener('DOMContentLoaded', function () {
+                const currentRatingElement = document.querySelector('#currentRating');
+                currentRating = parseInt(currentRatingElement.textContent);
+                updateStars();
             });
-        }
+        </script>        
+    </div>
 
-        function updateStars() {
-            const stars = document.querySelectorAll('.star');
-            stars.forEach((star, index) => {
-                if (index < currentRating) {
-                    star.style.color = 'yellow';
-                } else {
-                    star.style.color = '#777';
-                }
-            });
-        }
 
-        document.addEventListener('DOMContentLoaded', function () {
-            const currentRatingElement = document.querySelector('#currentRating');
-            currentRating = parseInt(currentRatingElement.textContent);
-            updateStars();
-        });
-    </script>
-    {% endblock %}
 </body>
 
 </html>
+{% endblock %}

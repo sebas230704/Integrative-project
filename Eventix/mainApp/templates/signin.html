@@ -1,32 +1,35 @@
 {% extends 'base.html' %}
-
-
+{% load static %}
 {%block content %}
-<div class="vh-100 d-flex justify-content-center align-items-center" style="margin-bottom: 10%;">
-    <main  class="container">
+
+<div class="container">
+    <link rel="stylesheet" href="{% static 'css/signin.css' %}">
+    <main  class="container-body">
         <div class="row">
             <section class="col-md-4 offset-md-4">
-            <form action="/signin/" method="POST" class="card card-body">
-                
-                <h1 class="text-center"> Eventix </h1>
-                <h2 class="text-center"> Sign Up</h2>
+                <form action="/signin/" method="POST" class="form">
+                    <h1 class="title"> Eventix </h1>
+                    <p></p>
+                    <h2 class="title2r"> Sign Up</h2>
 
-                {{error}}
-                {% csrf_token %}
-                    <div class="mb-3">
-                        <label for="username">Username:</label>
-                            <input type="text" name="username" id="username" class="form-control"
-                            placeholder="Enter your username">
-                    </div>
-                    <div class="mb-3">
-                        <label for="password">Password:</label>
-                            <input type="password" name="password" id="password" class="form-control"
-                            placeholder="Write your password">
-                    </div>
+                    {{error}}
+                    {% csrf_token %}
+                    <dic class="form__container">
+                        <div class="field">
+                            <input type="text" name="username" id="username" class="form-input" placeholder=" ">
+                            <label class="form-label" for="username">Username:</label>
+                            <span class="form-line"></span>
+                        </div>
+                        <div class="field">
+                            <input type="password" name="password" id="password" class="form-input" placeholder=" ">
+                            <label class="form-label" for="password">Password:</label>
+                            <span class="form-line"></span>
+                        </div>
 
-                    <button class="btn btn-primary btn-block">
-                        Signin
-                    </button>
+                        <button class="form-submit">
+                            Signin
+                        </button>
+                    </div>
                 </form>
             </section>
         </div>

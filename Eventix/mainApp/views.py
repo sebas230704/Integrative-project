@@ -419,8 +419,9 @@ def principalProfile(request, idUser):
         if 'secondary_photo' in request.FILES:
             principal_profile.secondaryPhoto = request.FILES['secondary_photo']
             principal_profile.save()
+    user_name = user.username
 
-    return render(request, 'principalProfile.html', {'esMiPerfil': esMiPerfil, 'principal_profile': principal_profile, 'user_events': user_events, 'id_organizerIfExist': id_organizerIfExist, 'current_rating': current_rating})
+    return render(request, 'principalProfile.html', {'esMiPerfil': esMiPerfil, 'principal_profile': principal_profile, 'user_events': user_events, 'id_organizerIfExist': id_organizerIfExist, 'current_rating': current_rating, 'user_profile_event': user_name})
 
 
 from django.shortcuts import get_object_or_404
